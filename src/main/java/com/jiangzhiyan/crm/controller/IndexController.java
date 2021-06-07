@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class IndexController extends BaseController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     /**
      * 系统登录页
@@ -36,20 +37,17 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 主页
+     * 登录用户进入主页,验证权限后展示main页面
      * @return
      */
     @RequestMapping("/main")
-    public String main(HttpServletRequest request){
+    public String main(HttpServletRequest request,HttpSession session){
 
-        HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("user")!=null){
-            return "main";
-        }else {
-            Integer userId = LoginUserUtil.releaseUserIdFromCookie(request);
-            User user = userService.selectByPrimaryKey(userId);
-            request.getSession().setAttribute("user",user);
-        }
+        Integer userId = LoginUserUtil.releaseUserIdFromCookie(request);
+        List<String> optValues = userService.getLoginUserModules(userId);
+        User user = userService.selectByPrimaryKey(userId);
+        session.setAttribute("user",user);
+        session.setAttribute("optValues",optValues);
         return "main";
     }
 }

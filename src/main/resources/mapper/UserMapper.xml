@@ -251,4 +251,19 @@
       #{id}
     </foreach>
   </update>
+
+  <!--获取登录用户能够访问的资源-->
+  <select id="getLoginUserModules" parameterType="java.lang.Integer" resultType="java.lang.String">
+    SELECT DISTINCT
+      m.opt_value AS optValue
+    FROM
+      t_user u
+        JOIN t_user_role ur ON u.id = ur.user_id
+        JOIN t_permission p ON ur.role_id = p.role_id
+        JOIN t_module m ON p.module_id = m.id
+    WHERE
+      u.is_valid = 1
+      AND m.is_valid = 1
+      AND u.id = #{userId}
+  </select>
 </mapper>

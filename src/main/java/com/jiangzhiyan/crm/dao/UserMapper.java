@@ -24,4 +24,10 @@ public interface UserMapper extends BaseMapper<User,Integer> {
      */
     List<Map<String,Object>> selectAllSales() throws DataAccessException;
 
+    /**
+     * 获取登录用户能够访问的资源列表
+     * @param userId
+     * @return
+     */
+    List<String> getLoginUserModules(Integer userId);
 }

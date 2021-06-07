@@ -124,6 +124,15 @@ public class UserService extends BaseService<User,Integer> {
     }
 
     /**
+     * 获取登录用户能够访问的资源列表
+     * @param userId
+     * @return
+     */
+    public List<String> getLoginUserModules(Integer userId) {
+        return userMapper.getLoginUserModules(userId);
+    }
+
+    /**
      * 校验更改密码参数
      * @param oldPassword 用户输入的原始密码
      * @param newPassword 用户输入的新密码
