@@ -20,7 +20,7 @@ layui.use(['form','jquery','jquery_cookie'], function () {
                 if(response.code === 200){
                     layer.msg("<div align='center' style='color: #00B83F'><b><h3>修改成功,系统即将退出...</h3></b></div>",{
                         icon: 1,
-                        time: 2000,
+                        time: 800,
                         shade : [0.6 , '#000' , true]
                     },function () {
                         //清空原有cookie
@@ -30,7 +30,7 @@ layui.use(['form','jquery','jquery_cookie'], function () {
                         $.removeCookie("JSESSIONID",{domain:"localhost",path:"/"});
                         setTimeout(function () {
                             window.parent.location.href = ctx + "/";
-                        },1500);
+                        },800);
                     })
                 }else {
                     layer.msg("<div align='center' style='color: red '><b><h3>"+response.msg+"</h3></b></div>",{
