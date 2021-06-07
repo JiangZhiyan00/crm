@@ -1,0 +1,9 @@
+1.2修改密码:
+
+后端实现思路:
+    controller:
+        1.接收参数:原始密码,新密码,确认密码
+        2.调用service层修改密码,得到ResultInfo对象
+        3.返回ResultInfo对象
+    service:
+        1.
