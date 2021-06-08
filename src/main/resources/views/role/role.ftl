@@ -26,17 +26,17 @@
 
 	<script type="text/html" id="toolbarDemo">
 			<div class="layui-btn-group">
-				<#if optValues?seq_contains("501001")>
+				<#if optValues?seq_contains("502001")>
 					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="add">
 						<i class="layui-icon">&#xe654;</i>添加职位
 					</button>
 				</#if>
-				<#if optValues?seq_contains("501004")>
+				<#if optValues?seq_contains("502004")>
 					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="del">
 						<i class="layui-icon">&#xe640;</i>删除职位
 					</button>
 				</#if>
-				<#if optValues?seq_contains("501005")>
+				<#if optValues?seq_contains("502005")>
 					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="grant">
 						<i class="layui-icon">&#xe672;</i>授权
 					</button>
@@ -48,10 +48,10 @@
 	</script>
 	<!--操作-->
 	<script id="roleListBar" type="text/html">
-		<#if optValues?seq_contains("501003")>
+		<#if optValues?seq_contains("502003")>
 			<a class="layui-btn layui-btn-xs" id="edit" lay-event="edit">编辑</a>
 		</#if>
-		<#if optValues?seq_contains("501004")>
+		<#if optValues?seq_contains("502004")>
 			<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 		</#if>
 	</script>
