@@ -50,7 +50,7 @@
 	<!--操作-->
 	<script id="op" type="text/html" >
 		<#if optValues?seq_contains("102001")>
-			{{# if (d.devResult=== 0 || d.devResult==1) { }}
+			{{# if (d.devResult=== 0 || d.devResult===1) { }}
 				<a href="javascript:;"  class="layui-btn layui-btn-warm layui-btn-xs"  lay-event="dev">开发</a>
 			{{# } else { }}
 				<a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-xs"  lay-event="info">详情</a>

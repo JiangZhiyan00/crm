@@ -16,11 +16,11 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, module_name, module_style, url, parent_id, parent_opt_value, grade, opt_value, 
+    id, module_name, module_style, url, parent_id, parent_opt_value, grade, opt_value,
     orders, is_valid, create_date, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_module
     where id = #{id,jdbcType=INTEGER}
@@ -30,14 +30,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jiangzhiyan.crm.vo.Module" >
-    insert into t_module (id, module_name, module_style, 
-      url, parent_id, parent_opt_value, 
-      grade, opt_value, orders, 
+    insert into t_module (id, module_name, module_style,
+      url, parent_id, parent_opt_value,
+      grade, opt_value, orders,
       is_valid, create_date, update_date
       )
-    values (#{id,jdbcType=INTEGER}, #{moduleName,jdbcType=VARCHAR}, #{moduleStyle,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{parentOptValue,jdbcType=VARCHAR}, 
-      #{grade,jdbcType=INTEGER}, #{optValue,jdbcType=VARCHAR}, #{orders,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{moduleName,jdbcType=VARCHAR}, #{moduleStyle,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{parentOptValue,jdbcType=VARCHAR},
+      #{grade,jdbcType=INTEGER}, #{optValue,jdbcType=VARCHAR}, #{orders,jdbcType=INTEGER},
       #{isValid,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -200,5 +200,14 @@
       ) temp ON temp.id = m.id
     WHERE
       m.is_valid =1
+  </select>
+
+  <!--查询所有有效资源,返回List<Module>集合-->
+  <select id="queryAllModules" resultType="com.jiangzhiyan.crm.vo.Module">
+    select
+        <include refid="Base_Column_List"/>
+    from t_module
+    where is_valid=1
+    order by opt_value
   </select>
 </mapper>

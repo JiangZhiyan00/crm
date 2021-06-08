@@ -17,4 +17,10 @@ public interface ModuleMapper extends BaseMapper<Module,Integer> {
      * @return json like [{id:2,pId:1,name:"moduleName",checked:true},...]
      */
     List<ZTreeModel> selectAllModules(Integer roleId);
+
+    /**
+     * 查询所有有效资源信息
+     * @return List<Module>集合
+     */
+    List<Module> queryAllModules();
 }

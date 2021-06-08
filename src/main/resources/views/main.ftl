@@ -22,7 +22,10 @@
                 <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
             </li>
             <li class="layui-nav-item layuimini-setting">
-                <a href="javascript:;">${(user.trueName)!}</a>
+                <a href="javascript:;"><i class="layui-icon">&#xe66f;</i>
+                    &nbsp;
+                    ${(user.trueName)!}
+                </a>
                 <dl class="layui-nav-child">
                     <dd>
                         <a href="javascript:;" data-iframe-tab="/user/toPasswordPage" data-title="基本资料"
