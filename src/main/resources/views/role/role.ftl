@@ -8,31 +8,39 @@
 
 <form class="layui-form" >
 	<blockquote class="layui-elem-quote quoteBox">
-		<form class="layui-form">
-			<div class="layui-inline">
-				<div class="layui-input-inline">
-					<input type="text" name="roleName"
-						   class="layui-input
-					searchVal" placeholder="职位名称" />
+		<#if optValues?seq_contains("502002")>
+			<form class="layui-form">
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" name="roleName"
+							   class="layui-input
+						searchVal" placeholder="职位名称" />
+					</div>
+					<a class="layui-btn search_btn" data-type="reload"><i
+								class="layui-icon">&#xe615;</i> 搜索</a>
 				</div>
-				<a class="layui-btn search_btn" data-type="reload"><i
-							class="layui-icon">&#xe615;</i> 搜索</a>
-			</div>
-		</form>
+			</form>
+		</#if>
 	</blockquote>
 	<table id="roleList" class="layui-table"  lay-filter="roles"></table>
 
 	<script type="text/html" id="toolbarDemo">
 			<div class="layui-btn-group">
-				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="add">
-					<i class="layui-icon">&#xe654;</i>添加职位
-				</button>
-				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="del">
-					<i class="layui-icon">&#xe640;</i>删除职位
-				</button>
-				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="grant">
-					<i class="layui-icon">&#xe672;</i>授权
-				</button>
+				<#if optValues?seq_contains("501001")>
+					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="add">
+						<i class="layui-icon">&#xe654;</i>添加职位
+					</button>
+				</#if>
+				<#if optValues?seq_contains("501004")>
+					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="del">
+						<i class="layui-icon">&#xe640;</i>删除职位
+					</button>
+				</#if>
+				<#if optValues?seq_contains("501005")>
+					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="grant">
+						<i class="layui-icon">&#xe672;</i>授权
+					</button>
+				</#if>
 				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh">
 					<i class="layui-icon">&#xe669;</i>刷新
 				</button>
@@ -40,8 +48,12 @@
 	</script>
 	<!--操作-->
 	<script id="roleListBar" type="text/html">
-		<a class="layui-btn layui-btn-xs" id="edit" lay-event="edit">编辑</a>
-		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+		<#if optValues?seq_contains("501003")>
+			<a class="layui-btn layui-btn-xs" id="edit" lay-event="edit">编辑</a>
+		</#if>
+		<#if optValues?seq_contains("501004")>
+			<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+		</#if>
 	</script>
 </form>
 <script type="text/javascript" src="${ctx}/js/role/role.js"></script>

@@ -218,7 +218,7 @@
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
                                        data-tab-mpi="m-p-i-13" data-tab="module/index" target="_self"><i
                                                 class="fa fa-tachometer"></i><span
-                                                class="layui-left-nav"> 菜单管理</span></a>
+                                                class="layui-left-nav"> 资源管理</span></a>
                                 </dd>
                             </#if>
                             <#if optValues?seq_contains("5040")>
