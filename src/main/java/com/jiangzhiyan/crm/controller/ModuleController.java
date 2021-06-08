@@ -1,5 +1,6 @@
 package com.jiangzhiyan.crm.controller;
 
+import com.jiangzhiyan.crm.annotations.OptValue;
 import com.jiangzhiyan.crm.base.BaseController;
 import com.jiangzhiyan.crm.model.ZTreeModel;
 import com.jiangzhiyan.crm.service.ModuleService;
@@ -22,6 +23,7 @@ public class ModuleController extends BaseController {
     * 查询所有资源信息,返回z-tree插件要求数据格式
     * @return json like [{id:2,pId:1,name:"moduleName"},...]
     */
+    @OptValue("502005")
     @GetMapping("/selectAllModules")
     @ResponseBody
     public List<ZTreeModel> selectAllModules(Integer roleId){

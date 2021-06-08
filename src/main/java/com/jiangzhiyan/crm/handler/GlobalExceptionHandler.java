@@ -2,6 +2,7 @@ package com.jiangzhiyan.crm.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jiangzhiyan.crm.base.ResultInfo;
+import com.jiangzhiyan.crm.exceptions.AuthException;
 import com.jiangzhiyan.crm.exceptions.ParamsException;
 import com.jiangzhiyan.crm.exceptions.UnLoginException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,13 +37,18 @@ public class GlobalExceptionHandler {
                     ParamsException pe = (ParamsException) e;
                     mv.addObject("code", pe.getCode());
                     mv.addObject("msg", pe.getMsg());
-                }
                 //如果是用户未登录异常
-                if (e instanceof UnLoginException){
+                }else if (e instanceof UnLoginException){
                     UnLoginException ue = (UnLoginException) e;
                     mv.addObject("code", ue.getCode());
                     mv.addObject("msg", ue.getMsg());
                     mv.setViewName("un_login");
+                //如果是用户权限异常
+                } else if (e instanceof AuthException){
+                    AuthException ae = (AuthException) e;
+                    mv.addObject("code", ae.getCode());
+                    mv.addObject("msg", ae.getMsg());
+                    mv.setViewName("no_permission");
                 }
             //如果返回的是数据
             }else {
@@ -54,6 +60,13 @@ public class GlobalExceptionHandler {
                     ParamsException pe = (ParamsException) e;
                     resultInfo.setMsg(pe.getMsg());
                     resultInfo.setCode(pe.getCode());
+                //如果是权限异常
+                }else if (e instanceof AuthException){
+                    AuthException ae = (AuthException) e;
+                    mv.addObject("code", ae.getCode());
+                    mv.addObject("msg", ae.getMsg());
+                    mv.setViewName("no_permission");
+                    return mv;
                 }
                 responseJson(resultInfo,response);
                 return null;

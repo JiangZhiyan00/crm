@@ -1,5 +1,6 @@
 package com.jiangzhiyan.crm.controller;
 
+import com.jiangzhiyan.crm.annotations.OptValue;
 import com.jiangzhiyan.crm.base.BaseController;
 import com.jiangzhiyan.crm.base.ResultInfo;
 import com.jiangzhiyan.crm.query.RoleQuery;
@@ -24,6 +25,7 @@ public class RoleController extends BaseController {
      * 查询所有职位
      * @return
      */
+    @OptValue("501001")
     @GetMapping("/selectAllRoles")
     @ResponseBody
     public List<Map<String,Object>> selectAllRoles(){
@@ -35,6 +37,7 @@ public class RoleController extends BaseController {
      * @param userId
      * @return
      */
+    @OptValue("501003")
     @GetMapping("/selectTheUserRoles")
     @ResponseBody
     public List<Map<String,Object>> selectTheUserRoles(Integer userId){
@@ -45,6 +48,7 @@ public class RoleController extends BaseController {
      * 打开职位主页
      * @return
      */
+    @OptValue("5020")
     @GetMapping("/index")
     public String roleIndex(){
         return "/role/role";
@@ -55,6 +59,7 @@ public class RoleController extends BaseController {
      * @param query
      * @return
      */
+    @OptValue("502002")
     @GetMapping("/list")
     @ResponseBody
     public Map<String,Object> selectByParams(RoleQuery query){
@@ -66,6 +71,7 @@ public class RoleController extends BaseController {
      * @param id
      * @return
      */
+    @OptValue({"502001","502003"})
     @GetMapping("/addOrUpdateRolePage")
     public String toAddOrUpdateRolePage(Integer id, HttpServletRequest request){
         if (id != null){
@@ -80,6 +86,7 @@ public class RoleController extends BaseController {
      * @param role
      * @return
      */
+    @OptValue("502001")
     @PostMapping("/addRole")
     @ResponseBody
     public ResultInfo addRole(Role role){
@@ -92,6 +99,7 @@ public class RoleController extends BaseController {
      * @param role
      * @return
      */
+    @OptValue("502003")
     @PostMapping("/updateRole")
     @ResponseBody
     public ResultInfo updateRole(Role role){
@@ -104,6 +112,7 @@ public class RoleController extends BaseController {
      * @param ids
      * @return
      */
+    @OptValue("502004")
     @PostMapping("/deleteRoles")
     @ResponseBody
     public ResultInfo deleteRoles(@RequestParam("ids") List<Integer> ids){
@@ -117,6 +126,7 @@ public class RoleController extends BaseController {
      * @param request
      * @return
      */
+    @OptValue("502005")
     @GetMapping("/toAddGrantPage")
     public String toAddGrantPage(Integer roleId,HttpServletRequest request){
         request.setAttribute("roleId",roleId);
@@ -129,6 +139,7 @@ public class RoleController extends BaseController {
      * @param roleId
      * @return
      */
+    @OptValue("502005")
     @PostMapping("addGrant")
     @ResponseBody
     public ResultInfo addGrant(@RequestParam("moduleIds") List<Integer> moduleIds,

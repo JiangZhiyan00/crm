@@ -1,5 +1,6 @@
 package com.jiangzhiyan.crm.controller;
 
+import com.jiangzhiyan.crm.annotations.OptValue;
 import com.jiangzhiyan.crm.base.BaseController;
 import com.jiangzhiyan.crm.base.ResultInfo;
 import com.jiangzhiyan.crm.query.SaleChanceQuery;
@@ -32,6 +33,7 @@ public class SaleChanceController extends BaseController {
      * 营销机会管理主页
      * @return
      */
+    @OptValue("1010")
     @RequestMapping("/index")
     public String toSaleChanceIndex(){
         return "/saleChance/sale_chance";
@@ -42,6 +44,7 @@ public class SaleChanceController extends BaseController {
      * @param query
      * @return
      */
+    @OptValue("101001")
     @RequestMapping("/list")
     @ResponseBody
     public Map<String,Object> selectSaleChancesByParams(SaleChanceQuery query){
@@ -52,6 +55,7 @@ public class SaleChanceController extends BaseController {
      * 添加或更新营销机会页面
      * @return
      */
+    @OptValue({"101002","101004"})
     @RequestMapping("/toAddOrUpdatePage")
     public String toAddOrUpdatePage(Integer id, HttpServletRequest request){
         //修改
@@ -73,6 +77,7 @@ public class SaleChanceController extends BaseController {
      * @param saleChance
      * @return
      */
+    @OptValue("101002")
     @RequestMapping("/addSaleChance")
     @ResponseBody
     public ResultInfo addSaleChance(SaleChance saleChance){
@@ -84,6 +89,7 @@ public class SaleChanceController extends BaseController {
      * @param saleChance
      * @return
      */
+    @OptValue("101004")
     @RequestMapping(value = "/updateSaleChance")
     @ResponseBody
     public ResultInfo updateSaleChance(SaleChance saleChance){
@@ -95,6 +101,7 @@ public class SaleChanceController extends BaseController {
      * @param ids
      * @return
      */
+    @OptValue("101003")
     @PostMapping("/delete")
     @ResponseBody
     public ResultInfo deleteBatch(@RequestParam("ids") List<Integer> ids){
@@ -107,6 +114,7 @@ public class SaleChanceController extends BaseController {
      * @param saleChance
      * @return
      */
+    @OptValue("102001")
     @RequestMapping("/updateSaleChanceDevResult")
     @ResponseBody
     public ResultInfo updateSaleChanceDevResult(SaleChance saleChance){

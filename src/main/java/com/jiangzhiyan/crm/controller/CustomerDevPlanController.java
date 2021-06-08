@@ -1,5 +1,6 @@
 package com.jiangzhiyan.crm.controller;
 
+import com.jiangzhiyan.crm.annotations.OptValue;
 import com.jiangzhiyan.crm.base.BaseController;
 import com.jiangzhiyan.crm.base.ResultInfo;
 import com.jiangzhiyan.crm.enums.StateStatus;
@@ -33,6 +34,7 @@ public class CustomerDevPlanController extends BaseController {
      * 客户开发计划主页
      * @return
      */
+    @OptValue("1020")
     @RequestMapping("/index")
     public String toSaleChanceIndex(){
         return "/cusDevPlan/cus_dev_plan";
@@ -44,6 +46,7 @@ public class CustomerDevPlanController extends BaseController {
      * @param request
      * @return
      */
+    @OptValue("102002")
     @RequestMapping("/queryOwnSaleChances")
     @ResponseBody
     public Map<String, Object> queryOwnSaleChances(SaleChanceQuery query, HttpServletRequest request){
@@ -61,6 +64,7 @@ public class CustomerDevPlanController extends BaseController {
      * @param request
      * @return
      */
+    @OptValue("102001")
     @RequestMapping("/toCusDevPlanDataPage")
     public String toCusDevPlanDataPage(Integer id,HttpServletRequest request){
         SaleChance saleChance = saleChanceService.selectByPrimaryKey(id);
@@ -73,6 +77,7 @@ public class CustomerDevPlanController extends BaseController {
      * @param query
      * @return
      */
+    @OptValue("102001")
     @RequestMapping("/list")
     @ResponseBody
     public Map<String,Object> list(DevPlanQuery query){
@@ -86,6 +91,7 @@ public class CustomerDevPlanController extends BaseController {
      * @param request
      * @return
      */
+    @OptValue("102001")
     @RequestMapping("/addOrUpdateCusDevPlanPage")
     public String toAddOrUpdatePlanPage(Integer saleChanceId,Integer id,
                                         HttpServletRequest request){
@@ -103,6 +109,7 @@ public class CustomerDevPlanController extends BaseController {
      * @param plan
      * @return
      */
+    @OptValue("102001")
     @RequestMapping("/addPlan")
     @ResponseBody
     public ResultInfo addDevPlan(CustomerDevPlan plan){
@@ -115,6 +122,7 @@ public class CustomerDevPlanController extends BaseController {
      * @param plan
      * @return
      */
+    @OptValue("102001")
     @RequestMapping("/updatePlan")
     @ResponseBody
     public ResultInfo updatePlan(CustomerDevPlan plan){
@@ -122,6 +130,12 @@ public class CustomerDevPlanController extends BaseController {
         return success("更新成功!");
     }
 
+    /**
+     * 删除开发计划
+     * @param id
+     * @return
+     */
+    @OptValue("102001")
     @RequestMapping("/delete")
     @ResponseBody
     public ResultInfo deletePlan(Integer id){

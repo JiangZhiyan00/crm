@@ -1,5 +1,6 @@
 package com.jiangzhiyan.crm.controller;
 
+import com.jiangzhiyan.crm.annotations.OptValue;
 import com.jiangzhiyan.crm.base.BaseController;
 import com.jiangzhiyan.crm.base.ResultInfo;
 import com.jiangzhiyan.crm.query.UserQuery;
@@ -65,6 +66,7 @@ public class UserController extends BaseController {
      * 查询所有销售
      * @return
      */
+    @OptValue({"101002","101004"})
     @RequestMapping("/selectAllSales")
     @ResponseBody
     public List<Map<String,Object>> selectAllSales(){
@@ -75,6 +77,7 @@ public class UserController extends BaseController {
      * 打开用户管理界面
      * @return
      */
+    @OptValue("5010")
     @GetMapping("/index")
     public String toUserManagePage(){
         return "/user/user";
@@ -85,6 +88,7 @@ public class UserController extends BaseController {
      * @param query
      * @return
      */
+    @OptValue("501002")
     @GetMapping("/queryUsers")
     @ResponseBody
     public Map<String,Object> queryUsers(UserQuery query){
@@ -95,6 +99,7 @@ public class UserController extends BaseController {
      * 打开添加或修改用户信息窗口
      * @return
      */
+    @OptValue({"501001","501003"})
     @RequestMapping("addOrUpdateUserPage")
     public String toAddOrUpdateUserPage(Integer id,HttpServletRequest request){
         if (id != null){
@@ -110,6 +115,7 @@ public class UserController extends BaseController {
      * @param user
      * @return
      */
+    @OptValue("501001")
     @PostMapping("/addUser")
     @ResponseBody
     public ResultInfo addUser(User user){
@@ -122,6 +128,7 @@ public class UserController extends BaseController {
      * @param user
      * @return
      */
+    @OptValue("501003")
     @PostMapping("/updateUser")
     @ResponseBody
     public ResultInfo updateUser(User user){
@@ -129,6 +136,12 @@ public class UserController extends BaseController {
         return success("用户信息更新成功!");
     }
 
+    /**
+     * 删除用户(单个/批量)
+     * @param ids
+     * @return
+     */
+    @OptValue("501004")
     @PostMapping("/delete")
     @ResponseBody
     public ResultInfo deleteUsers(@RequestParam("ids") List<Integer> ids){
