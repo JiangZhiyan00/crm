@@ -39,7 +39,10 @@ public class GlobalExceptionHandler {
                 }
                 //如果是用户未登录异常
                 if (e instanceof UnLoginException){
-                    mv.setViewName("index");
+                    UnLoginException ue = (UnLoginException) e;
+                    mv.addObject("code", ue.getCode());
+                    mv.addObject("msg", ue.getMsg());
+                    mv.setViewName("un_login");
                 }
             //如果返回的是数据
             }else {
