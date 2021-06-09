@@ -2,26 +2,30 @@ layui.use(['form', 'layer'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
+
     form.on("submit(updateModule)", function (data) {
-        var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
-        //弹出loading
-        $.post(ctx+"/module/update", data.field, function (res) {
-            if (res.code == 200) {
-                setTimeout(function () {
-                    top.layer.close(index);
-                    top.layer.msg("操作成功！");
-                    layer.closeAll("iframe");
-                    //刷新父页面
-                    parent.location.reload();
-                }, 500);
-            } else {
-                layer.msg(
-                    res.msg, {
-                        icon: 5
-                    }
-                );
+        let index= top.layer.msg("数据提交中,请稍后...",{icon:16,time:false,shade:0.8});
+        let url = ctx+"/module/updateModule";
+        $.post(url,data.field,function (res) {
+            if(res.code===200){
+                top.layer.msg("<div align='center' style='color: #00B83F'><b><h3>更新成功!</h3></b></div>",{
+                    icon: 6,
+                    time: 1200,
+                    shade : [0.6 , '#000' , true]
+                });
+                layer.close(index);
+                // 刷新父页面
+                parent.location.reload();
+            }else{
+                layer.msg("<div align='center' style='color: red '><b><h3>"+res.msg+"</h3></b></div>",
+                    {icon:5,time:1500,shade : [0.6 , '#000' , true]});
             }
         });
         return false;
     });
+
+    $("#cancel").on("click",function(){
+        let index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    })
 });

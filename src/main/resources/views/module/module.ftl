@@ -14,7 +14,7 @@
                 <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="add">
                     <i class="layui-icon">&#xe654;</i>添加子项
                 </a>
-                {{#  } else { }}
+            {{#  } else { }}
                 <a class="layui-btn layui-btn-xs layui-btn-disabled">
                     <i class="layui-icon">&#xe654;</i>添加子项
                 </a>

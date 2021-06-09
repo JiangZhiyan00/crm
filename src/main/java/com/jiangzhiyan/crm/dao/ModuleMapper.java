@@ -23,4 +23,18 @@ public interface ModuleMapper extends BaseMapper<Module,Integer> {
      * @return List<Module>集合
      */
     List<Module> queryAllModules();
+
+    /**
+     * 删除指定资源(实际是更新操作)
+     * @param id
+     * @return
+     */
+    Integer deleteModule(Integer id);
+
+    /**
+     * 查询当前id资源的子级别资源
+     * @param id
+     * @return
+     */
+    List<Module> selectByParentId(Integer id);
 }

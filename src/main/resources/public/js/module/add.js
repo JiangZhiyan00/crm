@@ -9,7 +9,7 @@ layui.use(['form', 'layer'], function () {
         let url = ctx+"/module/addModule";
         $.post(url,data.field,function (res) {
             if(res.code===200){
-                top.layer.msg("<div align='center' style='color: #00B83F'><b><h3>操作成功!</h3></b></div>",{
+                top.layer.msg("<div align='center' style='color: #00B83F'><b><h3>添加成功!</h3></b></div>",{
                     icon: 6,
                     time: 2000,
                     shade : [0.6 , '#000' , true]

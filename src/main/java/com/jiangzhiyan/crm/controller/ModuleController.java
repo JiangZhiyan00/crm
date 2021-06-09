@@ -71,11 +71,58 @@ public class ModuleController extends BaseController {
         return "/module/add";
     }
 
+    /**
+     * 添加资源
+     * @param module
+     * @return
+     */
     @OptValue("503001")
-    @PostMapping("addModule")
+    @PostMapping("/addModule")
     @ResponseBody
     public ResultInfo addModule(Module module){
         moduleService.addModule(module);
-        return success("添加成功");
+        return success("添加成功!");
+    }
+
+    /**
+     * 跳转到资源更新页面
+     * @param id
+     * @param request
+     * @return
+     */
+    @OptValue("503003")
+    @GetMapping("/toUpdateModulePage")
+    public String toUpdateModulePage(Integer id,HttpServletRequest request){
+        if (id != null){
+            Module module = moduleService.selectByPrimaryKey(id);
+            request.setAttribute("module",module);
+        }
+        return "/module/update";
+    }
+
+    /**
+     * 更新资源信息
+     * @param module
+     * @return
+     */
+    @OptValue("503003")
+    @PostMapping("/updateModule")
+    @ResponseBody
+    public ResultInfo updateModule(Module module){
+        moduleService.updateModule(module);
+        return success("更新成功!");
+    }
+
+    /**
+     * 删除指定资源
+     * @param id
+     * @return
+     */
+    @OptValue("503004")
+    @PostMapping("/deleteModule")
+    @ResponseBody
+    public ResultInfo deleteModule(Integer id){
+        moduleService.deleteModule(id);
+        return success("删除成功!");
     }
 }

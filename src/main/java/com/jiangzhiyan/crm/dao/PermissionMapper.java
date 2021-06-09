@@ -23,9 +23,16 @@ public interface PermissionMapper extends BaseMapper<Permission,Integer> {
     Integer deleteByRoleId(Integer roleId);
 
     /**
-     * 获取登录用户拥有的权限
-     * @param userId
+     * 通过moduleId查询权限
+     * @param moduleId
      * @return
      */
-    List<Permission> getLoginUserPermission(Integer userId);
+    List<Permission> selectByModuleId(Integer moduleId);
+
+    /**
+     * 根据moduleId删除权限
+     * @param moduleId
+     * @return 数据变动数目
+     */
+    Integer deleteByModuleId(Integer moduleId);
 }

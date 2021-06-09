@@ -210,4 +210,19 @@
     where is_valid=1
     order by opt_value
   </select>
+
+  <!--删除指定id的资源,实际是更新操作-->
+  <update id="deleteModule" parameterType="java.lang.Integer">
+    update t_module
+    set is_valid=0
+    where id=#{id}
+  </update>
+
+  <!--查询指定id资源的子资源-->
+  <select id="selectByParentId" parameterType="java.lang.Integer" resultType="com.jiangzhiyan.crm.vo.Module">
+    select
+        <include refid="Base_Column_List"/>
+    from t_module
+    where is_valid=1 and parent_id=#{id}
+  </select>
 </mapper>

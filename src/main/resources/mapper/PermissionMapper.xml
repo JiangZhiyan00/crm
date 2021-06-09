@@ -126,4 +126,18 @@
           (#{item.roleId},#{item.moduleId},#{item.aclValue},#{item.createDate},#{item.updateDate})
         </foreach>
   </insert>
+
+  <!--通过moduleId查询权限-->
+  <select id="selectByModuleId" parameterType="java.lang.Integer" resultType="com.jiangzhiyan.crm.vo.Permission">
+    select
+      <include refid="Base_Column_List"/>
+    from t_permission
+    where module_id=#{moduleId}
+  </select>
+
+  <!--根据moduleId删除权限-->
+  <delete id="deleteByModuleId" parameterType="java.lang.Integer">
+    delete from t_permission
+    where module_id=#{moduleId}
+  </delete>
 </mapper>
