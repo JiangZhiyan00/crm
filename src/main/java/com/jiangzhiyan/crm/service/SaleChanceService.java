@@ -54,7 +54,7 @@ public class SaleChanceService extends BaseService<SaleChance,Integer> {
     }
 
     /**
-     * 删除单条营销机会数据
+     * 删除营销机会数据
      * @param ids
      * @return
      */
