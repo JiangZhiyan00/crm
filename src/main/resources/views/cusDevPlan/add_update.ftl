@@ -56,11 +56,12 @@
 <script type="text/javascript" src="${ctx}/js/cusDevPlan/add.update.js"></script>
 <script>
     layui.use('laydate', function(){
-        var laydate = layui.laydate;
-
-        //时间选择组件
+        let laydate = layui.laydate;
+        //执行一个laydate实例
         laydate.render({
-            elem: '#planDate'
+            elem: '#contactTime',//指定元素
+            type:"datetime",
+            format: 'yyyy-MM-dd HH:mm:ss' //可任意组合
         });
     });
 </script>
