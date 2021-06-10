@@ -59,9 +59,9 @@
         let laydate = layui.laydate;
         //执行一个laydate实例
         laydate.render({
-            elem: '#contactTime',//指定元素
+            elem: '#planDate',//指定元素
             type:"datetime",
-            format: 'yyyy-MM-dd HH:mm:ss' //可任意组合
+            format: 'yyyy-MM-dd HH:mm' //可任意组合
         });
     });
 </script>

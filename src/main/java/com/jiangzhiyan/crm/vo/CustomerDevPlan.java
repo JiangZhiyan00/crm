@@ -14,7 +14,7 @@ public class CustomerDevPlan {
     private String planItem;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd") //接收指定格式的时间字符串
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") //接收指定格式的时间字符串
     private Date planDate;
 
     private String exeAffect;
