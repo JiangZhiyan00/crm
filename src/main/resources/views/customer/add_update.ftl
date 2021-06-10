@@ -82,7 +82,7 @@
                     <span style="color: red">*</span>联系电话</label>
                 <div class="layui-input-block">
                     <input type="text" class="layui-input"
-                           name="phone" lay-verify="required" lay-reqtext="联系电话不能为空" value="${(customer.phone)!}"  placeholder="请输入客户联系电话">
+                           name="phone" lay-verify="phone" value="${(customer.phone)!}"  placeholder="请输入客户联系电话">
                 </div>
             </div>
             <div class="layui-col-md4">
