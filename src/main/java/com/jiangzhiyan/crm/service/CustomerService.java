@@ -90,6 +90,7 @@ public class CustomerService extends BaseService<Customer,Integer> {
         if (customer.getId() == null){
             customer.setCustomerId(getCustomerId());
             customer.setIsValid(1);
+            customer.setState(1);
             customer.setCreateDate(new Date());
         //更新
         }else {
