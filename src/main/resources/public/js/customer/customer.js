@@ -154,40 +154,44 @@ layui.use(['table','layer',"form"],function(){
 
     function openLinkManageDialog(data) {
         if(data.length===0){
-            layer.msg("请选择需要查看的客户!");
+            layer.msg("<div align='center' style='color: red'><b><h3>请先选择一个客户!</h3></b></div>",
+                {icon:2});
             return;
         }
         if(data.length>1){
-            layer.msg("暂不支持批量查看!");
+            layer.msg("<div align='center' style='color: red'><b><h3>无法同时管理多个客户联系人!</h3></b></div>",
+                {icon:2});
             return;
         }
-        let title="客户管理-联系人管理";
+        let title="<h2>客户管理-联系人管理</h2>";
         layui.layer.open({
             title:title,
             type:2,
-            area:["700px","500px"],
+            area:["700px","400px"],
             maxmin:true,
-            content:ctx+"/customer/linkCustomerPage?cid="+data[0].id
+            content:ctx+"/customer/linkMan?cusId="+data[0].id
         })
     }
 
     function openCustomerContactDialog(data) {
         //console.log(data[0].id)
-        if(data.length==0){
-            layer.msg("请选择需要查看的客户!");
+        if(data.length === 0){
+            layer.msg("<div align='center' style='color: red'><b><h3>请先选择一个客户!</h3></b></div>",
+                {icon:2});
             return;
         }
         if(data.length>1){
-            layer.msg("暂不支持批量查看!");
+            layer.msg("<div align='center' style='color: red'><b><h3>无法同时查看多个客户的交流记录!</h3></b></div>",
+                {icon:2});
             return;
         }
-        var title="客户管理-交往记录";
+        let title="<h2>客户管理-交流记录</h2>";
         layui.layer.open({
             title:title,
             type:2,
-            area:["800px","600px"],
+            area:["1000px","600px"],
             maxmin:true,
-            content:ctx+"/customer_contact/customerContactPage?cid="+data[0].id
+            content:ctx+"/customerContact/customerContactPage?cusId="+data[0].id
         })
     }
 
@@ -208,21 +212,22 @@ layui.use(['table','layer',"form"],function(){
     }
 
     function openOrderInfoDialog(data) {
-        if(data.length==0){
-            layer.msg("请选择查看订单对应客户!");
+        if(data.length === 0){
+            layer.msg("<div align='center' style='color: red'><b><h3>请先选择一个客户!</h3></b></div>",
+                {icon:2});
             return;
         }
         if(data.length>1){
-            layer.msg("暂不支持批量查看!");
+            layer.msg("<div align='center' style='color: red'><b><h3>无法同时管理多个客户的订单!</h3></b></div>",
+                {icon:2});
             return;
         }
         layui.layer.open({
-            title:"客户管理-订单信息查看",
+            title:"<h2>客户订单信息</h2>",
             type:2,
-            area:["800px","600px"],
+            area:["1050px","600px"],
             maxmin:true,
-            content:ctx+"/customer/orderInfoPage?cid="+data[0].id
+            content:ctx+"/customerOrder/orderInfoPage?cusId="+data[0].id
         })
-
     }
 });

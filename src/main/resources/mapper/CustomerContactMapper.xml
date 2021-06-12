@@ -125,4 +125,24 @@
       is_valid = #{isValid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--通过客户id查询交流记录-->
+  <select id="selectByParams" parameterType="com.jiangzhiyan.crm.query.CustomerContactQuery" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"/>
+    from
+        t_customer_contact
+    where
+        is_valid=1 and cus_id=#{cusId}
+  </select>
+
+  <!--批量删除交流记录(实际是更新操作)-->
+  <update id="deleteBatch" parameterType="list">
+    update t_customer_contact
+    set is_valid=0
+    where id in
+    <foreach collection="list" separator="," item="ids" open="(" close=")">
+      #{ids}
+    </foreach>
+  </update>
 </mapper>

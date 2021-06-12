@@ -1,5 +1,8 @@
 package com.jiangzhiyan.crm.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class CustomerOrder {
@@ -9,15 +12,27 @@ public class CustomerOrder {
 
     private String orderNo;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date requiredDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date actualDate;
 
     private String address;
 
-    private Integer state;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date createDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date updateDate;
+
+    private String state;
 
     private Integer isValid;
 
@@ -53,20 +68,28 @@ public class CustomerOrder {
         this.orderDate = orderDate;
     }
 
+    public Date getRequiredDate() {
+        return requiredDate;
+    }
+
+    public void setRequiredDate(Date requiredDate) {
+        this.requiredDate = requiredDate;
+    }
+
+    public Date getActualDate() {
+        return actualDate;
+    }
+
+    public void setActualDate(Date actualDate) {
+        this.actualDate = actualDate;
+    }
+
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
     }
 
     public Date getCreateDate() {
@@ -83,6 +106,14 @@ public class CustomerOrder {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public Integer getIsValid() {

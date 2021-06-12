@@ -1,5 +1,8 @@
 package com.jiangzhiyan.crm.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class OrderDetails {
@@ -13,14 +16,16 @@ public class OrderDetails {
 
     private String unit;
 
-    private Float price;
+    private BigDecimal price;
 
-    private Float sum;
+    private BigDecimal sum;
 
     private Integer isValid;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date updateDate;
 
     public Integer getId() {
@@ -63,19 +68,19 @@ public class OrderDetails {
         this.unit = unit == null ? null : unit.trim();
     }
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Float getSum() {
+    public BigDecimal getSum() {
         return sum;
     }
 
-    public void setSum(Float sum) {
+    public void setSum(BigDecimal sum) {
         this.sum = sum;
     }
 

@@ -1,152 +1,192 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jiangzhiyan.crm.dao.OrderDetailsMapper" >
-  <resultMap id="BaseResultMap" type="com.jiangzhiyan.crm.vo.OrderDetails" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="order_id" property="orderId" jdbcType="INTEGER" />
-    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
-    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
-    <result column="unit" property="unit" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="REAL" />
-    <result column="sum" property="sum" jdbcType="REAL" />
-    <result column="is_valid" property="isValid" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangzhiyan.crm.dao.OrderDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.jiangzhiyan.crm.vo.OrderDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_num" jdbcType="INTEGER" property="goodsNum" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="sum" jdbcType="DECIMAL" property="sum" />
+    <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, order_id, goods_name, goods_num, unit, price, sum, is_valid, create_date, update_date
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_order_details
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_order_details
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jiangzhiyan.crm.vo.OrderDetails" >
+  <insert id="insert" parameterType="com.jiangzhiyan.crm.vo.OrderDetails">
     insert into t_order_details (id, order_id, goods_name, 
       goods_num, unit, price, 
       sum, is_valid, create_date, 
       update_date)
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, 
-      #{goodsNum,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
-      #{sum,jdbcType=REAL}, #{isValid,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{goodsNum,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{sum,jdbcType=DECIMAL}, #{isValid,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
       #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jiangzhiyan.crm.vo.OrderDetails" >
+  <insert id="insertSelective" parameterType="com.jiangzhiyan.crm.vo.OrderDetails">
     insert into t_order_details
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="orderId != null" >
+      <if test="orderId != null">
         order_id,
       </if>
-      <if test="goodsName != null" >
+      <if test="goodsName != null">
         goods_name,
       </if>
-      <if test="goodsNum != null" >
+      <if test="goodsNum != null">
         goods_num,
       </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         unit,
       </if>
-      <if test="price != null" >
+      <if test="price != null">
         price,
       </if>
-      <if test="sum != null" >
+      <if test="sum != null">
         sum,
       </if>
-      <if test="isValid != null" >
+      <if test="isValid != null">
         is_valid,
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date,
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="orderId != null" >
+      <if test="orderId != null">
         #{orderId,jdbcType=INTEGER},
       </if>
-      <if test="goodsName != null" >
+      <if test="goodsName != null">
         #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="goodsNum != null" >
+      <if test="goodsNum != null">
         #{goodsNum,jdbcType=INTEGER},
       </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=REAL},
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
       </if>
-      <if test="sum != null" >
-        #{sum,jdbcType=REAL},
+      <if test="sum != null">
+        #{sum,jdbcType=DECIMAL},
       </if>
-      <if test="isValid != null" >
+      <if test="isValid != null">
         #{isValid,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jiangzhiyan.crm.vo.OrderDetails" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.jiangzhiyan.crm.vo.OrderDetails">
     update t_order_details
-    <set >
-      <if test="orderId != null" >
+    <set>
+      <if test="orderId != null">
         order_id = #{orderId,jdbcType=INTEGER},
       </if>
-      <if test="goodsName != null" >
+      <if test="goodsName != null">
         goods_name = #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="goodsNum != null" >
+      <if test="goodsNum != null">
         goods_num = #{goodsNum,jdbcType=INTEGER},
       </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=REAL},
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
       </if>
-      <if test="sum != null" >
-        sum = #{sum,jdbcType=REAL},
+      <if test="sum != null">
+        sum = #{sum,jdbcType=DECIMAL},
       </if>
-      <if test="isValid != null" >
+      <if test="isValid != null">
         is_valid = #{isValid,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jiangzhiyan.crm.vo.OrderDetails" >
+  <update id="updateByPrimaryKey" parameterType="com.jiangzhiyan.crm.vo.OrderDetails">
     update t_order_details
     set order_id = #{orderId,jdbcType=INTEGER},
       goods_name = #{goodsName,jdbcType=VARCHAR},
       goods_num = #{goodsNum,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
-      price = #{price,jdbcType=REAL},
-      sum = #{sum,jdbcType=REAL},
+      price = #{price,jdbcType=DECIMAL},
+      sum = #{sum,jdbcType=DECIMAL},
       is_valid = #{isValid,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByParams" parameterType="com.jiangzhiyan.crm.query.OrderDetailsQuery" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_order_details
+    <where>
+      is_valid=1
+        <if test="orderId != null">
+          and order_id=#{orderId}
+        </if>
+    </where>
+  </select>
+
+  <select id="selectCountByOrderIds" parameterType="list" resultType="int">
+    select count(1)
+    from t_order_details
+    where is_valid=1 and order_id in
+    <foreach close=")" collection="list" item="orderIds" open="(" separator=",">
+      #{orderIds}
+    </foreach>
+  </select>
+
+  <update id="deleteByOrderIds" parameterType="list">
+    update t_order_details
+    set is_valid=0
+    where order_id in
+    <foreach close=")" collection="list" item="orderIds" open="(" separator=",">
+      #{orderIds}
+    </foreach>
+  </update>
+
+  <!--批量删除商品订单(实际是更新操作)-->
+  <update id="deleteBatch" parameterType="list">
+    update t_order_details
+    set is_valid=0
+    where id in
+    <foreach close=")" collection="list" item="ids" open="(" separator=",">
+      #{ids}
+    </foreach>
   </update>
 </mapper>

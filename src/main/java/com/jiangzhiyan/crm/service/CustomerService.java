@@ -2,6 +2,8 @@ package com.jiangzhiyan.crm.service;
 
 import com.jiangzhiyan.crm.base.BaseService;
 import com.jiangzhiyan.crm.dao.CustomerMapper;
+import com.jiangzhiyan.crm.dao.CustomerOrderMapper;
+import com.jiangzhiyan.crm.dao.OrderDetailsMapper;
 import com.jiangzhiyan.crm.utils.AssertUtil;
 import com.jiangzhiyan.crm.utils.PhoneUtil;
 import com.jiangzhiyan.crm.vo.Customer;
@@ -22,6 +24,12 @@ public class CustomerService extends BaseService<Customer,Integer> {
 
     @Resource
     private CustomerMapper customerMapper;
+
+    @Resource
+    private CustomerOrderMapper customerOrderMapper;
+
+    @Resource
+    private OrderDetailsMapper orderDetailsMapper;
 
     /**
      * 添加客户信息
@@ -54,6 +62,16 @@ public class CustomerService extends BaseService<Customer,Integer> {
     @Transactional(rollbackFor = Exception.class)
     public void deleteCustomersByIds(List<Integer> ids) {
         AssertUtil.isTrue(ids == null || ids.size() == 0,"无效的请求!请重试...");
+        //1.删除详细订单中的所有关联记录
+        List<Integer> orderIds = customerOrderMapper.selectOrderIdsByCusIds(ids);
+        Integer orderDetailsCount = orderDetailsMapper.selectCountByOrderIds(orderIds);
+        Integer deleteOrderDetailsResult = orderDetailsMapper.deleteByOrderIds(orderIds);
+        AssertUtil.isTrue(!orderDetailsCount.equals(deleteOrderDetailsResult),"服务器异常!删除失败...");
+        //2.删除客户订单中的管理记录
+        Integer ordersCount = customerOrderMapper.selectCountByCusIds(ids);
+        Integer deleteOrdersResult = customerOrderMapper.deleteByCusIds(ids);
+        AssertUtil.isTrue(!ordersCount.equals(deleteOrdersResult),"服务器异常!删除失败...");
+        //3.删除客户
         Integer result = customerMapper.deleteBatch(ids);
         AssertUtil.isTrue(result != ids.size(),"服务器异常!客户信息删除失败...");
     }

@@ -47,48 +47,6 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--数据库表名及对应的Java实体类名-->
-        <table tableName="t_customer" domainObjectName="Customer"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false" />
-        <table tableName="t_customer_contact" domainObjectName="CustomerContact"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false" />
-        <table tableName="t_customer_linkman" domainObjectName="CustomerLinkMan"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false" />
-        <table tableName="t_customer_loss" domainObjectName="CustomerLoss"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false" />
-        <table tableName="t_customer_order" domainObjectName="CustomerOrder"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false" />
-        <table tableName="t_customer_reprieve" domainObjectName="CustomerReprieve"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false" />
-        <table tableName="t_customer_serve" domainObjectName="CustomerServe"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false" />
         <table tableName="t_order_details" domainObjectName="OrderDetails"
                enableCountByExample="false"
                enableUpdateByExample="false"

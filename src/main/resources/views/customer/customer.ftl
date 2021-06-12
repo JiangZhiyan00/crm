@@ -51,15 +51,21 @@
 						<i class="layui-icon">&#xe640;</i>删除客户
 					</button>
 				</#if>
+				<#if optValues?seq_contains("201005")>
 					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="link">
 						<i class="layui-icon">&#xe613;</i>客户联系人管理
 					</button>
+				</#if>
+				<#if optValues?seq_contains("201006")>
 					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="contact">
 						<i class="layui-icon">&#xe60e;</i>交流记录
 					</button>
+				</#if>
+				<#if optValues?seq_contains("201007")>
 					<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="order">
-						<i class="layui-icon">&#xe65e;</i>查看订单
+						<i class="layui-icon">&#xe65e;</i>订单管理
 					</button>
+				</#if>
 				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh">
 					<i class="layui-icon">&#xe669;</i>刷新
 				</button>

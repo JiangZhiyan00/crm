@@ -1,55 +1,104 @@
-layui.use(['table','layer',"form"],function(){
+layui.use(['table','layer','form'],function(){
     var layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
         table = layui.table,
         form = layui.form;
 
-    //获取顾客id
-    var cusId = $("input[name='cusId']").val()
-    //客户列表展示
-    var  tableIns = table.render({
-        elem: '#customerList',
-        url : ctx+'/customer_contact/list?cusId='+cusId,
-        cellMinWidth : 95,
+    //从请求域中获取客户id
+    let cusId = $("input[name='cusId']").val()
+    let tableIns = table.render({
+        elem: '#customerContactList',
+        url : ctx+'/customerContact/list?cusId='+cusId,
+        cellMinWidth : 20,
         page : true,
-        height : "full-125",
-        limits : [10,15,20,25],
+        height : "full-50",
+        limits : [10,20,30,40],
         limit : 10,
         toolbar: "#toolbarDemo",
-        id : "customerListTable",
+        id : "customerContactListTable",
         cols : [[
-            {field: "id", title:'编号',fixed:"true"},
-            {field: 'contactTime', title: '交往时间',  align:'center'},
-            {field: 'address', title: '交往地址', align:'center'},
-            {field: 'overview', title: '概况', align:'center'},
-            {field: 'createDate', title: '创建时间', align:'center'},
-            {field: 'updateDate', title: '更新时间', align:'center'},
-            {title: '操作', templet:'#customerListBar',fixed:"right",align:"center", minWidth:150}
+            {type: "checkbox", fixed:"left",align:"center"},
+            {field: "id", title:'编号',align:'center'},
+            {field: 'contactTime', title: '交流时间',  align:'center',minWidth:159},
+            {field: 'address', title: '交流地址', align:'center'},
+            {field: 'overview', title: '交流内容概要', align:'center',minWidth:120},
+            {field: 'createDate', title: '创建时间', align:'center',minWidth:159},
+            {field: 'updateDate', title: '更新时间', align:'center',minWidth:159},
+            {title: '操作', templet:'#customerListBar',fixed:"right",align:"center", minWidth:112}
         ]]
     });
 
     // 头工具栏事件
-    table.on('toolbar(customers)',function (obj) {
-        switch (obj.event) {
-            //添加
-            case "add":
-                openAddOrUpdateCustomerContactDialog();
-                break;
+    table.on('toolbar(customerContacts)',function (obj) {
+        if (obj.event === "add"){
+            openAddOrUpdateCustomerContactDialog();
+        }else if (obj.event === "del"){
+            delCustomerContacts(table.checkStatus(obj.config.id).data);
+        }else if (obj.event === "refresh"){
+            table.reload("customerContactListTable",{
+                page:{curr:1}
+            })
         }
     });
 
-    table.on('tool(customers)',function (obj) {
-        var layEvent =obj.event;
-        if(layEvent === "edit"){
+    /**
+     * 批量删除客户交流记录
+     * @param datas 选中的交流记录信息
+     */
+    function delCustomerContacts(datas){
+        if(datas.length < 1){
+            layer.msg("<div align='center' style='color: red'><b><h3>请先选择要删除的记录!</h3></b></div>",
+                {icon: 2});
+            return;
+        }
+        layer.confirm("<div align='center'><b><h3>确定删除选中的记录?</h3></b></div>",
+            {icon: 3, title: "提示"},
+            function (index) {
+                layer.close(index);
+                let ids="ids=";
+                for(let i=0;i<datas.length;i++){
+                    if(i<datas.length-1){
+                        ids=ids+datas[i].id+"&ids=";
+                    }else{
+                        ids=ids+datas[i].id;
+                    }
+                }
+
+                $.ajax({
+                    type:"post",
+                    url:ctx+"/customerContact/delete",
+                    data:ids,
+                    dataType:"json",
+                    success:function (data) {
+                        if(data.code===200){
+                            layer.msg("<div align='center' style='color: #00B83F'><b><h3>删除成功!</h3></b></div>",
+                                {icon: 6})
+                            tableIns.reload();
+                        }else{
+                            layer.msg("<div align='center' style='color: red'><b><h3>"+data.msg+"</h3></b></div>",
+                                {icon: 5});
+                        }
+                    }
+                })
+            })
+    }
+
+    table.on('tool(customerContacts)',function (obj) {
+        if(obj.event === "edit"){
             openAddOrUpdateCustomerContactDialog(obj.data.id);
-        }else if(layEvent === "del"){
-            layer.confirm("确认删除当前记录?",{icon: 3, title: "客户管理"},function (index) {
-                $.post(ctx+"/customer_contact/delete",{id:obj.data.id},function (data) {
-                    if(data.code==200){
-                        layer.msg("删除成功");
+        }else if(obj.event === "del"){
+            layer.confirm("<div align='center'><b><h3>确定删除此条记录?</h3></b></div>",
+                {icon: 3, title: "提示"},
+            function (index) {
+                layer.close(index);
+                $.post(ctx+"/customerContact/delete",{ids:obj.data.id},function (data) {
+                    if(data.code===200){
+                        layer.msg("<div align='center' style='color: #00B83F'><b><h3>删除成功!</h3></b></div>",
+                            {icon: 6})
                         tableIns.reload();
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg("<div align='center' style='color: red '><b><h3>"+data.msg+"</h3></b></div>",
+                            {icon: 5});
                     }
                 })
             })
@@ -59,16 +108,16 @@ layui.use(['table','layer',"form"],function(){
 
 
     function openAddOrUpdateCustomerContactDialog(id) {
-        var title="客户管理-客户添加";
-        var url=ctx+"/customer_contact/addOrUpdateCustomerContactPage?cusId="+cusId;
+        let title="<h2>添加客户交流记录</h2>";
+        let url=ctx+"/customerContact/addOrUpdateCustomerContactPage?cusId="+cusId;
         if(id){
-            title="客户管理-客户更新";
+            title="<h2>更新客户交流记录</h2>";
             url=url+"&id="+id;
         }
         layui.layer.open({
             title:title,
             type:2,
-            area:["700px","500px"],
+            area:["650px","450px"],
             maxmin:true,
             content:url
         })

@@ -6,14 +6,16 @@
     <result column="cus_id" property="cusId" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
     <result column="order_date" property="orderDate" jdbcType="TIMESTAMP" />
+    <result column="required_date" property="requiredDate" jdbcType="TIMESTAMP" />
+    <result column="actual_date" property="actualDate" jdbcType="TIMESTAMP" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="state" property="state" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="is_valid" property="isValid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, cus_id, order_no, order_date, address, state, create_date, update_date, is_valid
+    id, cus_id, order_no, order_date, required_date, actual_date, address, create_date, 
+    update_date, is_valid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,13 +29,13 @@
   </delete>
   <insert id="insert" parameterType="com.jiangzhiyan.crm.vo.CustomerOrder" >
     insert into t_customer_order (id, cus_id, order_no, 
-      order_date, address, state, 
-      create_date, update_date, is_valid
-      )
+      order_date, required_date, actual_date, 
+      address, create_date, update_date, 
+      is_valid)
     values (#{id,jdbcType=INTEGER}, #{cusId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, 
-      #{orderDate,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isValid,jdbcType=INTEGER}
-      )
+      #{orderDate,jdbcType=TIMESTAMP}, #{requiredDate,jdbcType=TIMESTAMP}, #{actualDate,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{isValid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.jiangzhiyan.crm.vo.CustomerOrder" >
     insert into t_customer_order
@@ -50,11 +52,14 @@
       <if test="orderDate != null" >
         order_date,
       </if>
+      <if test="requiredDate != null" >
+        required_date,
+      </if>
+      <if test="actualDate != null" >
+        actual_date,
+      </if>
       <if test="address != null" >
         address,
-      </if>
-      <if test="state != null" >
-        state,
       </if>
       <if test="createDate != null" >
         create_date,
@@ -79,11 +84,14 @@
       <if test="orderDate != null" >
         #{orderDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="requiredDate != null" >
+        #{requiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualDate != null" >
+        #{actualDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
@@ -108,11 +116,14 @@
       <if test="orderDate != null" >
         order_date = #{orderDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="requiredDate != null" >
+        required_date = #{requiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualDate != null" >
+        actual_date = #{actualDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
       </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -131,11 +142,62 @@
     set cus_id = #{cusId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=VARCHAR},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
+      required_date = #{requiredDate,jdbcType=TIMESTAMP},
+      actual_date = #{actualDate,jdbcType=TIMESTAMP},
       address = #{address,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       is_valid = #{isValid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--分页查询某客户所有订单-->
+  <select id="selectByParams" parameterType="com.jiangzhiyan.crm.query.CustomerOrderQuery" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_customer_order
+    where cus_id=#{cusId}
+    and is_valid=1
+  </select>
+
+  <!--删除客户订单(批量,实际是更新)-->
+  <update id="deleteBatch" parameterType="list">
+    update t_customer_order
+    set is_valid=0
+    where id in
+    <foreach collection="list" open="(" close=")" separator="," item="ids">
+      #{ids}
+    </foreach>
+  </update>
+
+  <!--查询指定cusId集合的所有订单数量-->
+  <select id="selectCountByCusIds" parameterType="list" resultType="int">
+    select count(1)
+    from t_customer_order
+    where is_valid=1 and cus_id in
+    <foreach collection="list" open="(" close=")" separator="," item="cusIds">
+      #{cusIds}
+    </foreach>
+  </select>
+
+  <!--当客户被删除时,删除关联的订单-->
+  <update id="deleteByCusIds" parameterType="java.lang.Integer">
+    update t_customer_order
+    set is_valid=0
+    where cus_id in
+    <foreach collection="list" open="(" close=")" separator="," item="cusIds">
+      #{cusIds}
+    </foreach>
+  </update>
+
+  <select id="selectOrderIdsByCusIds" parameterType="list" resultType="int">
+    select co.id as orderId
+    from t_customer_order co
+    left join t_customer c
+    on co.cus_id=c.id
+    where co.is_valid=1 and c.is_valid=1 and c.id in
+    <foreach collection="list" open="(" close=")" separator="," item="cusIds">
+      #{cusIds}
+    </foreach>
+  </select>
 </mapper>

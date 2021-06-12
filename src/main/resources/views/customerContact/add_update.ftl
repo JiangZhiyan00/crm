@@ -1,62 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <#include "../common.ftl">
+    <#include "*/common.ftl">
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width:80%;">
-    <input type="hidden" name="id"  value="${(customerContact.id)!}">
-    <input type="hidden" name="cusId"  value="${(cusId)!}">
+<div align="justify">
+    <form class="layui-form" style="width:95%;">
+        <input type="hidden" name="id"  value="${(customerContact.id)!}">
+        <input type="hidden" name="cusId"  value="${(cusId)!}">
 
-    <div class="layui-form-item layui-row layui-col-xs12">
-        <label class="layui-form-label">交往时间</label>
-        <div class="layui-input-block">
-
-            <#if (customerContact.contactTime)??>
-                <input type="text" class="layui-input userName"
-                       lay-verify="required" name="contactTime" id="contactTime" value="${(customerContact.contactTime)?string("yyyy-MM-dd HH:mm:ss")}" placeholder="请输入计划项时间">
-            <#else>
-                <input type="text" class="layui-input userName"
-                       lay-verify="required" name="contactTime" id="contactTime"  placeholder="请输入计划项时间">
-            </#if>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">
+                <span style="color: red">*</span>交流时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input userName" lay-verify="required"
+                       lay-reqtext="交流时间不能为空!" name="contactTime" id="contactTime"
+                        <#if (customerContact.contactTime)??>
+                            value="${(customerContact.contactTime)?string("yyyy-MM-dd HH:mm:ss")}"
+                        </#if>
+                       placeholder="请选择交流时间">
+            </div>
         </div>
-    </div>
 
-    <div class="layui-form-item layui-row layui-col-xs12">
-        <label class="layui-form-label">交往地址</label>
-        <div class="layui-input-block">
-            <input type="text" class="layui-input"
-                   name="address"  lay-verify="required"
-                   placeholder="请输入交往地址" value="${(customerContact.address)!}">
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">
+                <span style="color: red">*</span>交流地址</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" lay-reqtext="交流地址不能为空!"
+                       name="address"  lay-verify="required"
+                       placeholder="请输入交流地址" value="${(customerContact.address)!}">
+            </div>
         </div>
-    </div>
 
-    <div class="layui-form-item layui-row layui-col-xs12">
-        <label class="layui-form-label">概要信息</label>
-        <div class="layui-input-block">
-            <textarea placeholder="请输入概要信息" name="overview" class="layui-textarea">${(customerContact.overview)!}</textarea>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">
+                <span style="color: red">*</span>交流概要</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入交流内容概要" name="overview" lay-verify="required"
+                          lay-reqtext="交流地址不能为空!" class="layui-textarea">${(customerContact.overview)!}</textarea>
+            </div>
         </div>
-    </div>
 
-    <br/>
-    <div class="layui-form-item layui-row layui-col-xs12">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-lg" lay-submit=""
-                    lay-filter="addOrUpdateCustomerContact">确认
-            </button>
-            <button class="layui-btn layui-btn-lg layui-btn-normal">取消</button>
+        <br/>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <div class="layui-input-block" style="float: left">
+                <button class="layui-btn layui-btn-lg" lay-submit lay-filter="addOrUpdateCustomerContact">
+                    <i class="layui-icon">&#xe605;</i>提交
+                </button>
+            </div>
+            <div class="layui-input-block" style="float: right">
+                <button class="layui-btn layui-btn-lg layui-btn-normal" id="cancel">
+                    <i class="layui-icon">&#x1006;</i>取消
+                </button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 <script type="text/javascript" src="${ctx}/js/customerContact/addOrUpdate.js"></script>
 <script>
     layui.use('laydate', function(){
-        var laydate = layui.laydate;
-
+        let laydate = layui.laydate;
         //执行一个laydate实例
         laydate.render({
-            elem: '#contactTime' ,//指定元素
-            format: 'yyyy-MM-dd HH:mm:ss' //可任意组合
+            elem: '#contactTime',//指定元素
+            type:"datetime",
+            format: 'yyyy-MM-dd HH:mm:ss', //可任意组合
+            min: '1990-1-1 00:00:00',
+            max: 0
         });
     });
 </script>

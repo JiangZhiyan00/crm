@@ -3,9 +3,12 @@ package com.jiangzhiyan.crm.controller;
 import com.jiangzhiyan.crm.annotations.OptValue;
 import com.jiangzhiyan.crm.base.BaseController;
 import com.jiangzhiyan.crm.base.ResultInfo;
+import com.jiangzhiyan.crm.dao.CustomerLinkManMapper;
 import com.jiangzhiyan.crm.query.CustomerQuery;
+import com.jiangzhiyan.crm.service.CustomerLinkManService;
 import com.jiangzhiyan.crm.service.CustomerService;
 import com.jiangzhiyan.crm.vo.Customer;
+import com.jiangzhiyan.crm.vo.CustomerLinkMan;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,9 @@ public class CustomerController extends BaseController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CustomerLinkManService customerLinkManService;
 
     @OptValue("2010")
     @GetMapping("/index")
@@ -71,5 +77,31 @@ public class CustomerController extends BaseController {
     public ResultInfo deleteCustomersByIds(@RequestParam("ids") List<Integer> ids){
         customerService.deleteCustomersByIds(ids);
         return success("客户信息删除成功!");
+    }
+
+    @OptValue("201005")
+    @GetMapping("linkMan")
+    public String customerLinkManPage(Integer cusId,HttpServletRequest request){
+        CustomerLinkMan customerLinkMan = customerLinkManService.selectByCusId(cusId);
+        //因为查询结果可能为null,cusId需要单独放入请求域
+        request.setAttribute("cusId",cusId);
+        request.setAttribute("customerLinkMan",customerLinkMan);
+        return "/customer/customer_link";
+    }
+
+    @OptValue("201005")
+    @PostMapping("/addCustomerLinkMan")
+    @ResponseBody
+    public ResultInfo addCustomerLinkMan(CustomerLinkMan customerLinkMan){
+        customerLinkManService.addCustomerLinkMan(customerLinkMan);
+        return success("客户联系人添加成功!");
+    }
+
+    @OptValue("201005")
+    @PostMapping("/updateCustomerLinkMan")
+    @ResponseBody
+    public ResultInfo updateCustomerLinkMan(CustomerLinkMan customerLinkMan){
+        customerLinkManService.updateCustomerLinkMan(customerLinkMan);
+        return success("客户联系人更新成功!");
     }
 }

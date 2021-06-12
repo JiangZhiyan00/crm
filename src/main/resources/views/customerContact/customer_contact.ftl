@@ -2,21 +2,27 @@
 <html>
 <head>
     <title>客户管理</title>
-    <#include "../common.ftl">
+    <#include "*/common.ftl">
 </head>
 <body class="childrenBody">
 
 <form class="layui-form" >
     <input name="cusId" type="hidden" value="${(cusId)!}"/>
-    <table id="customerList" class="layui-table"  lay-filter="customers"></table>
-    <script type="text/html" id="toolbarDemo">
 
-        <div class="layui-btn-container">
-            <a class="layui-btn layui-btn-normal addNews_btn" lay-event="add">
-                <i class="layui-icon">&#xe608;</i>
-                添加
-            </a>
-        </div>
+    <table id="customerContactList" class="layui-table"  lay-filter="customerContacts"></table>
+
+    <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-group">
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="add">
+                        <i class="layui-icon">&#xe654;</i>添加
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="del">
+                        <i class="layui-icon">&#xe640;</i>删除
+                    </button>
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh">
+                    <i class="layui-icon">&#xe669;</i>刷新
+                </button>
+            </div>
     </script>
 
     <!--操作-->

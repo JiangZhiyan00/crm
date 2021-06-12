@@ -3,18 +3,17 @@ layui.use(['form', 'layer'], function () {
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
 
-    form.on('submit(addOrUpdateCustomerLinkMan)',function (data) {
-        //console.log(data)
+    form.on('submit(addOrUpdateCustomerOrder)',function (data) {
         let index= top.layer.msg("数据提交中,请稍后...",{icon:16,time:false,shade:0.8});
-        let url = ctx+"/customer/addCustomerLinkMan";
+        let url = ctx+"/customerOrder/add";
         if ($("input[name='id']").val()){
-            url = ctx+"/customer/updateCustomerLinkMan";
+            url = ctx+"/customerOrder/update";
         }
         $.post(url,data.field,function (res) {
             if(res.code===200){
                 top.layer.msg("<div align='center' style='color: #00B83F'><b><h3>"+res.msg+"</h3></b></div>",{
                     icon: 6,
-                    time: 1500,
+                    time: 2000,
                     shade : [0.6 , '#000' , true]
                 });
                 layer.close(index);

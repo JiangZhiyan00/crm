@@ -150,4 +150,18 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--通过客户id查询对应的联系人-->
+  <select id="selectByCusId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"/>
+    from
+        t_customer_linkman
+    <where>
+        is_valid=1
+        <if test="cusId != null">
+          and cus_id=#{cusId}
+        </if>
+    </where>
+  </select>
 </mapper>
