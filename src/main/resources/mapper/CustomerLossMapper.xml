@@ -7,7 +7,7 @@
     <result column="cus_name" property="cusName" jdbcType="VARCHAR" />
     <result column="cus_manager" property="cusManager" jdbcType="VARCHAR" />
     <result column="last_order_time" property="lastOrderTime" jdbcType="DATE" />
-    <result column="confirm_loss_time" property="confirmLossTime" jdbcType="DATE" />
+    <result column="confirm_loss_time" property="confirmLossTime" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="loss_reason" property="lossReason" jdbcType="VARCHAR" />
     <result column="is_valid" property="isValid" jdbcType="INTEGER" />
@@ -34,7 +34,7 @@
       state, loss_reason, is_valid, 
       create_date, update_date)
     values (#{id,jdbcType=INTEGER}, #{cusNo,jdbcType=VARCHAR}, #{cusName,jdbcType=VARCHAR}, 
-      #{cusManager,jdbcType=VARCHAR}, #{lastOrderTime,jdbcType=DATE}, #{confirmLossTime,jdbcType=DATE}, 
+      #{cusManager,jdbcType=VARCHAR}, #{lastOrderTime,jdbcType=DATE}, #{confirmLossTime,jdbcType=TIMESTAMP},
       #{state,jdbcType=INTEGER}, #{lossReason,jdbcType=VARCHAR}, #{isValid,jdbcType=INTEGER}, 
       #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
@@ -92,7 +92,7 @@
         #{lastOrderTime,jdbcType=DATE},
       </if>
       <if test="confirmLossTime != null" >
-        #{confirmLossTime,jdbcType=DATE},
+        #{confirmLossTime,jdbcType=TIMESTAMP},
       </if>
       <if test="state != null" >
         #{state,jdbcType=INTEGER},
@@ -127,7 +127,7 @@
         last_order_time = #{lastOrderTime,jdbcType=DATE},
       </if>
       <if test="confirmLossTime != null" >
-        confirm_loss_time = #{confirmLossTime,jdbcType=DATE},
+        confirm_loss_time = #{confirmLossTime,jdbcType=TIMESTAMP},
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
@@ -153,7 +153,7 @@
       cus_name = #{cusName,jdbcType=VARCHAR},
       cus_manager = #{cusManager,jdbcType=VARCHAR},
       last_order_time = #{lastOrderTime,jdbcType=DATE},
-      confirm_loss_time = #{confirmLossTime,jdbcType=DATE},
+      confirm_loss_time = #{confirmLossTime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=INTEGER},
       loss_reason = #{lossReason,jdbcType=VARCHAR},
       is_valid = #{isValid,jdbcType=INTEGER},
@@ -185,4 +185,12 @@
     set is_valid=0
     where state=1
   </update>
+
+  <!--条件查询流失客户信息-->
+  <select id="selectByParams" parameterType="com.jiangzhiyan.crm.query.CustomerLossQuery" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_customer_loss
+    where is_valid=1
+  </select>
 </mapper>
