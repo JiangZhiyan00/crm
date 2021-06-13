@@ -15,4 +15,17 @@ public interface CustomerMapper extends BaseMapper<Customer,Integer> {
 
     Customer selectByCustomerName(String name);
 
+    /**
+     * 查询所有待流失客户
+     * 流失要求:客户创建时间满6个月且近6个月没有订单
+     * @return 待流失的客户集合
+     */
+    List<Customer> selectWaitToLossCustomers();
+
+    /**
+     * 将流失客户的状态改为流失:0
+     * @param lossCustomerIds 流失客户的id集合
+     * @return 数据改动条目数
+     */
+    Integer updateState0ByIds(List<Integer> lossCustomerIds);
 }

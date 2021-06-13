@@ -200,4 +200,18 @@
       #{cusIds}
     </foreach>
   </select>
+
+  <!--查询指定客户最近的一次订单记录-->
+  <select id="selectLastOrderByCusId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      t_customer_order
+    WHERE
+      cus_id = #{cusId}
+      AND is_valid = 1
+    ORDER BY
+      order_date DESC
+    LIMIT 1
+  </select>
 </mapper>

@@ -161,4 +161,28 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询所有暂缓状态的客户总数-->
+  <select id="selectStateIs1Count" resultType="java.lang.Integer">
+    select count(1)
+    from t_customer_loss
+    where is_valid=1
+    and state=1
+  </select>
+
+  <!--批量插入流失客户-->
+  <insert id="insertBatch" parameterType="list">
+    insert into t_customer_loss
+    values
+    <foreach collection="list" item="item" separator=",">
+      (null,#{item.cusNo},#{item.cusName},#{item.cusManager},#{item.lastOrderTime},#{item.confirmLossTime},0,#{item.lossReason},1,#{item.createDate},null)
+    </foreach>
+  </insert>
+
+  <!--删除所有暂缓状态的客户,实际是更新操作-->
+  <update id="deleteAllStateIs1">
+    update t_customer_loss
+    set is_valid=0
+    where state=1
+  </update>
 </mapper>

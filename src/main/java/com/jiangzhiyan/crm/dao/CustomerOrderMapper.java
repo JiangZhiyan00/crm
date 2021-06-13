@@ -15,4 +15,6 @@ public interface CustomerOrderMapper extends BaseMapper<CustomerOrder,Integer> {
     Integer deleteByCusIds(List<Integer> cusIds);
 
     List<Integer> selectOrderIdsByCusIds(List<Integer> cusIds);
+
+    CustomerOrder selectLastOrderByCusId(Integer id);
 }
