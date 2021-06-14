@@ -191,6 +191,47 @@
     select
     <include refid="Base_Column_List"/>
     from t_customer_loss
-    where is_valid=1
+    <where>
+      is_valid=1
+      <if test="cusNo != null and cusNo != '' ">
+        and cus_no like "%"#{cusNo}"%"
+      </if>
+      <if test="cusName != null and cusName != '' ">
+        and cus_name like "%"#{cusName}"%"
+      </if>
+      <if test="state != null">
+        and state=#{state}
+      </if>
+    </where>
+  </select>
+
+  <!--根据流失客户id查询对应数据-->
+  <select id="selectState0LossCustomerById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_customer_loss
+    where is_valid=1 and state=0 and id=#{id}
+  </select>
+
+  <!--将流失客户设置为暂缓状态-->
+  <update id="setState1ById" parameterType="java.lang.Integer">
+    update t_customer_loss
+    set state=1,update_date=now()
+    where id=#{lossId}
+  </update>
+
+  <!--将暂缓流失客户设置为流失状态-->
+  <update id="setState0ById" parameterType="java.lang.Integer">
+    update t_customer_loss
+    set state=0,update_date=now()
+    where id=#{lossId}
+  </update>
+
+  <!--根据暂缓客户id查询对应数据-->
+  <select id="selectState1LossCustomerById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_customer_loss
+    where is_valid=1 and state=1 and id=#{id}
   </select>
 </mapper>

@@ -19,7 +19,7 @@
     <br/>
     <div class="layui-form-item layui-row layui-col-xs12">
         <div class="layui-input-block" style="float: left">
-            <button class="layui-btn layui-btn-lg" lay-submit lay-filter="addOrUpdateCustomerRep">
+            <button class="layui-btn layui-btn-lg" lay-submit lay-filter="firstAdd">
                 <i class="layui-icon">&#xe605;</i>提交
             </button>
         </div>
@@ -30,6 +30,6 @@
         </div>
     </div>
 </form>
-<script type="text/javascript" src="${ctx}/js/customerLoss/customer.rep.add.update.js"></script>
+<script type="text/javascript" src="${ctx}/js/customerLoss/customer.rep.firstAdd.js"></script>
 </body>
 </html>

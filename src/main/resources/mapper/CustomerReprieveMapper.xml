@@ -103,4 +103,43 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByLossId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_customer_reprieve
+    where loss_id=#{lossId} and is_valid=1
+  </select>
+
+  <!--查询lossId对应的暂缓措施条目数-->
+  <select id="selectCountByLossId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1)
+    from t_customer_reprieve
+    where loss_id=#{lossId} and is_valid=1
+  </select>
+
+  <!--删除指定lossId所有的暂缓措施-->
+  <update id="cancelReprieveByLossId" parameterType="java.lang.Integer">
+    update t_customer_reprieve
+    set is_valid=0
+    where loss_id=#{lossId} and is_valid=1
+  </update>
+
+  <!--分页查询,展示暂缓措施页面-->
+  <select id="selectByParams" parameterType="com.jiangzhiyan.crm.query.CustomerReprieveQuery" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_customer_reprieve
+    where is_valid=1 and loss_id=#{lossId}
+  </select>
+
+  <!--批量删除暂缓措施-->
+  <update id="deleteBatch" parameterType="list">
+    update t_customer_reprieve
+    set is_valid=0
+    where is_valid=1 and id in
+    <foreach collection="list" item="ids" separator="," open="(" close=")">
+      #{ids}
+    </foreach>
+  </update>
 </mapper>

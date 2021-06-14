@@ -400,4 +400,16 @@
       #{ids}
     </foreach>
   </update>
+
+  <update id="updateState1ByNo" parameterType="java.lang.String">
+    update t_customer
+    set state=1
+    where customer_id=#{cusNo}
+  </update>
+
+  <update id="updateState0ByNo" parameterType="java.lang.String">
+    update t_customer
+    set state=0
+    where customer_id=#{cusNo}
+  </update>
 </mapper>

@@ -3,50 +3,94 @@ layui.use(['table','layer',"form"],function(){
         $ = layui.jquery,
         table = layui.table;
     //暂缓列表展示
-    var  tableIns = table.render({
+    let lossId = $("input[name='lossId']").val();
+    let tableIns = table.render({
         elem: '#customerRepList',
-        url : ctx+'/customer_rep/list?lossId='+$("input[name='id']").val(),
-        cellMinWidth : 95,
+        url : ctx+'/customerRep/list?lossId='+lossId,
+        cellMinWidth : 20,
         page : true,
-        height : "full-125",
-        limits : [10,15,20,25],
+        height : "full-120",
+        limits : [10,20,30,40],
         limit : 10,
         toolbar: "#toolbarDemo",
         id : "customerRepListTable",
         cols : [[
-            {type: "checkbox", fixed:"center"},
-            {field: "id", title:'编号',fixed:"true"},
+            {type: "checkbox", fixed:"left"},
+            {field: "id", title:'编号',align:"center",minWidth: 65},
             {field: 'measure', title: '暂缓措施',align:"center"},
-            {field: 'createDate', title: '创建时间',align:"center"},
-            {field: 'updateDate', title: '更新时间',align:"center"},
-            {title: '操作',fixed:"right",align:"center", minWidth:150,templet:"#customerRepListBar"}
+            {field: 'createDate', title: '创建时间',align:"center",minWidth: 141},
+            {field: 'updateDate', title: '更新时间',align:"center",minWidth: 141},
+            {title: '操作',fixed:"right",align:"center", minWidth:112,templet:"#customerRepListBar"}
         ]]
     });
 
     // 头工具栏事件
     table.on('toolbar(customerReps)',function (obj) {
-        switch (obj.event) {
-            case "add":
-                openAddOrUpdateCustomerReprDialog();
-                break;
-            case "confirm":
-                updateCustomerLossState();
-                break;
+        if (obj.event === "add"){
+            openAddOrUpdateCustomerReprDialog();
+        }else if (obj.event === "del"){
+            delReprieves(table.checkStatus(obj.config.id).data);
+        }else if (obj.event === "refresh"){
+            table.reload("customerRepListTable",{
+                page:{curr:1},
+            })
         }
     });
 
-    table.on('tool(customerReps)',function (obj) {
-        var layEvent =obj.event;
-        if(layEvent === "edit"){
-            openAddOrUpdateCustomerReprDialog(obj.data.id);
-        }else if(layEvent === "del"){
-            layer.confirm("确认删除当前记录?",{icon: 3, title: "客户流失管理"},function (index) {
-                $.post(ctx+"/customer_rep/delete",{id:obj.data.id},function (data) {
-                    if(data.code==200){
-                        layer.msg("删除成功");
+    function delReprieves(datas){
+        if(datas.length===0){
+            layer.msg("<div align='center' style='color: red'><b><h3>请先选择要删除的数据!</h3></b></div>",
+                {icon: 2});
+            return;
+        }
+        layer.confirm("<div align='center'><b><h3>确定删除选中的暂缓措施?</h3></b></div>",
+            {icon: 3, title: "提示"},
+            function (index) {
+                layer.close(index);
+                let ids="ids=";
+                for(let i=0;i<datas.length;i++){
+                    if(i<datas.length-1){
+                        ids=ids+datas[i].id+"&ids=";
+                    }else{
+                        ids=ids+datas[i].id;
+                    }
+                }
+
+            $.ajax({
+                type:"post",
+                url:ctx+"/customerRep/delete",
+                data:ids,
+                dataType:"json",
+                success:function (data) {
+                    if(data.code===200){
+                        layer.msg("<div align='center' style='color: #00B83F'><b><h3>删除成功!</h3></b></div>",
+                            {icon: 6})
                         tableIns.reload();
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg("<div align='center' style='color: red'><b><h3>"+data.msg+"</h3></b></div>",
+                            {icon: 5});
+                    }
+                }
+            })
+        })
+    }
+
+    table.on('tool(customerReps)',function (obj) {
+        if(obj.event === "edit"){
+            openAddOrUpdateCustomerReprDialog(obj.data.id);
+        }else if(obj.event === "del"){
+            layer.confirm("<div align='center'><b><h3>确定删除此暂缓措施吗?</h3></b></div>",
+                {icon: 3, title: "提示"},
+            function (index) {
+                layer.close(index);
+                $.post(ctx+"/customerRep/delete",{ids:obj.data.id},function (data) {
+                    if(data.code===200){
+                        layer.msg("<div align='center' style='color: #00B83F'><b><h3>删除成功!</h3></b></div>",
+                            {icon: 6})
+                        tableIns.reload();
+                    }else{
+                        layer.msg("<div align='center' style='color: red '><b><h3>"+data.msg+"</h3></b></div>",
+                            {icon: 5});
                     }
                 })
             })
@@ -55,63 +99,18 @@ layui.use(['table','layer',"form"],function(){
 
 
     function openAddOrUpdateCustomerReprDialog(id) {
-        var title="暂缓管理-添加暂缓";
-        var url=ctx+"/customer_loss/addOrUpdateCustomerReprPage?lossId="+$("input[name='id']").val();
+        let title="添加暂缓措施";
+        let url=ctx+"/customerRep/addOrUpdateReprievePage?lossId="+$("input[name='lossId']").val();
         if(id){
-            title="暂缓管理-更新暂缓";
+            title="更新暂缓措施";
             url=url+"&id="+id;
         }
         layui.layer.open({
             title:title,
             type:2,
-            area:["700px","500px"],
+            area:["600px","180px"],
             maxmin:true,
             content:url
         })
     }
-
-    
-    
-    function updateCustomerLossState() {
-        layer.confirm("当前客户确认流失?",{icon: 3, title: "客户流失管理"},function (index) {
-            layer.close(index);
-
-            layer.prompt({title: "请输入流失原因", formType: 2}, function(text, index){
-                layer.close(index);
-                /**
-                 * id  $("input[name='id']").val()
-                 * lossReason text
-                 */
-                $.ajax({
-                    type:"post",
-                    url:ctx+"/customer_loss/updateCustomerLossStateById",
-                    data:{
-                        id:$("input[name='id']").val(),
-                        lossReason:text
-                    },
-                    dataType:"json",
-                    success:function (data) {
-                        if(data.code==200){
-                            layer.msg(data.msg);
-                            layer.closeAll("iframe");
-                            // 刷新父页面
-                            parent.location.reload();
-                        }else{
-                            layer.msg(data.msg);
-                        }
-                    }
-
-                })
-
-            });
-
-
-
-        })
-    }
-
-
-
-
-
 });

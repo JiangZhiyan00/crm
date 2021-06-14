@@ -18,4 +18,12 @@ public interface CustomerLossMapper extends BaseMapper<CustomerLoss,Integer> {
      * @return 删除后数据改变数目
      */
     Integer deleteAllStateIs1();
+
+    CustomerLoss selectState0LossCustomerById(Integer id);
+
+    Integer setState1ById(Integer lossId);
+
+    Integer setState0ById(Integer lossId);
+
+    CustomerLoss selectState1LossCustomerById(Integer id);
 }

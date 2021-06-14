@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>流失客户管理</title>
-	<#include "../common.ftl">
+	<#include "*/common.ftl">
 </head>
 <body class="childrenBody">
 
@@ -35,15 +35,21 @@
 
 
 	<script type="text/html" id="toolbarDemo">
+			<div class="layui-btn-group">
+				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh">
+					<i class="layui-icon">&#xe669;</i>刷新
+				</button>
+			</div>
 	</script>
 
 
 	<!--操作-->
 	<script id="op" type="text/html" >
-		{{# if (d.state=== 1 ) { }}
+		{{# if (d.state === 0 ) { }}
 			<a href="javascript:;"  class="layui-btn layui-btn-warm layui-btn-xs"  lay-event="add">添加暂缓</a>
 		{{# } else { }}
-			<a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-xs"  lay-event="info">详情</a>
+			<a href="javascript:;" class="layui-btn layui-btn-xs"  lay-event="info">详情</a>
+			<a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-xs"  lay-event="cancel">取消暂缓</a>
 		{{# } }}
 	</script>
 

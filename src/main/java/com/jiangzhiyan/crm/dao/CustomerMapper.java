@@ -28,4 +28,8 @@ public interface CustomerMapper extends BaseMapper<Customer,Integer> {
      * @return 数据改动条目数
      */
     Integer updateState0ByIds(List<Integer> lossCustomerIds);
+
+    Integer updateState1ByNo(String cusNo);
+
+    Integer updateState0ByNo(String cusNo);
 }

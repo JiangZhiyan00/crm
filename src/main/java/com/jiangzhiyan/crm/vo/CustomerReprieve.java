@@ -1,5 +1,7 @@
 package com.jiangzhiyan.crm.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class CustomerReprieve {
@@ -11,8 +13,10 @@ public class CustomerReprieve {
 
     private Integer isValid;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date createDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date updateDate;
 
     public Integer getId() {

@@ -75,4 +75,13 @@ public class CustomerLossService extends BaseService<CustomerLoss,Integer> {
             AssertUtil.isTrue(updateResult != lossCustomerIds.size(),"客户流失状态更改失败!");
         }
     }
+
+    /**
+     * 根据流失客户id查询对应数据
+     * @param id 流失客户id
+     * @return 流失客户对象
+     */
+    public CustomerLoss selectState0LossCustomerById(Integer id) {
+        return customerLossMapper.selectState0LossCustomerById(id);
+    }
 }

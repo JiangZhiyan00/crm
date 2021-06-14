@@ -2,14 +2,14 @@
 <html>
 <head>
 	<title>暂缓管理</title>
-	<#include "../common.ftl">
+	<#include "*/common.ftl">
 </head>
 <body class="childrenBody">
 	<div class="layui-col-md12">
 		<div class="layui-card">
 			<div class="layui-card-body">
 				<form class="layui-form" >
-					<input name="id" type="hidden" value="${(customerLoss.id)!}"/>
+					<input name="lossId" type="hidden" value="${(customerLoss.id)!}"/>
 					<div class="layui-form-item layui-row">
 						<div class="layui-col-xs6">
 							<label class="layui-form-label">客户名称</label>
@@ -26,26 +26,6 @@
 							</div>
 						</div>
 					</div>
-					<#if customerLoss.state==0>
-						<div class="layui-form-item layui-row">
-							<div class="layui-col-xs6">
-								<label class="layui-form-label">确认流失时间</label>
-								<div class="layui-input-block">
-									<input type="text" class="layui-input"
-										   name="confirmLossTime"
-										   value="${(customerLoss.confirmLossTime?string("yyyy-MM-dd HH:mm:ss"))}" readonly="readonly">
-								</div>
-							</div>
-							<div class="layui-col-xs6">
-								<label class="layui-form-label">流失原因</label>
-								<div class="layui-input-block">
-									<input type="text" class="layui-input"
-										   name="lossReason" value="${(customerLoss.lossReason)!}" readonly="readonly">
-								</div>
-							</div>
-						</div>
-					</#if>
-
 				</form>
 			</div>
 		</div>
@@ -57,26 +37,25 @@
 
 
 
-	<#if customerLoss.state==1>
-		<script type="text/html" id="toolbarDemo">
-			<div class="layui-btn-container">
-				<a class="layui-btn layui-btn-normal addNews_btn" lay-event="add">
-					<i class="layui-icon">&#xe608;</i>
-					添加暂缓
-				</a>
-				<a class="layui-btn layui-btn-normal addNews_btn" lay-event="confirm">
-					<i class="layui-icon">&#xe608;</i>
-					确认流失
-				</a>
-			</div>
-		</script>
+	<script type="text/html" id="toolbarDemo">
+		<div class="layui-btn-group">
+			<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="add">
+				<i class="layui-icon">&#xe654;</i>添加措施
+			</button>
+			<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="del">
+				<i class="layui-icon">&#xe640;</i>删除措施
+			</button>
+			<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh">
+				<i class="layui-icon">&#xe669;</i>刷新
+			</button>
+		</div>
+	</script>
 
-		<!--行操作-->
-		<script id="customerRepListBar" type="text/html">
-			<a class="layui-btn layui-btn-xs" id="edit" lay-event="edit">编辑</a>
-			<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
-		</script>
-	</#if>
+	<!--行操作-->
+	<script id="customerRepListBar" type="text/html">
+		<a class="layui-btn layui-btn-xs" id="edit" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+	</script>
 
 
 
