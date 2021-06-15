@@ -166,7 +166,7 @@
     select count(1)
     from t_order_details
     where is_valid=1 and order_id in
-    <foreach close=")" collection="list" item="orderIds" open="(" separator=",">
+    <foreach collection="list" item="orderIds" open="(" close=")" separator=",">
       #{orderIds}
     </foreach>
   </select>

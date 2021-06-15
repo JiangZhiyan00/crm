@@ -1,5 +1,7 @@
 package com.jiangzhiyan.crm.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class CustomerServe {
@@ -9,7 +11,7 @@ public class CustomerServe {
 
     private String overview;
 
-    private String customer;
+    private String cusName;
 
     private String state;
 
@@ -19,12 +21,14 @@ public class CustomerServe {
 
     private String assigner;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date assignTime;
 
     private String serviceProce;
 
     private String serviceProcePeople;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date serviceProceTime;
 
     private String serviceProceResult;
@@ -33,8 +37,10 @@ public class CustomerServe {
 
     private Integer isValid;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date updateDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date createDate;
 
     public Integer getId() {
@@ -61,12 +67,12 @@ public class CustomerServe {
         this.overview = overview == null ? null : overview.trim();
     }
 
-    public String getCustomer() {
-        return customer;
+    public String getCusName() {
+        return cusName;
     }
 
-    public void setCustomer(String customer) {
-        this.customer = customer == null ? null : customer.trim();
+    public void setCusName(String cusName) {
+        this.cusName = cusName == null ? null : cusName.trim();
     }
 
     public String getState() {

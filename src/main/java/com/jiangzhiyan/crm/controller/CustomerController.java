@@ -104,4 +104,11 @@ public class CustomerController extends BaseController {
         customerLinkManService.updateCustomerLinkMan(customerLinkMan);
         return success("客户联系人更新成功!");
     }
+
+    @OptValue("301001")
+    @GetMapping("/selectAllCustomersAndSelected")
+    @ResponseBody
+    public List<Map<String,Object>> selectAllCustomersAndSelected(Integer serveId){
+        return customerService.selectAllCustomersAndSelected(serveId);
+    }
 }

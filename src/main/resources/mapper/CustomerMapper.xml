@@ -412,4 +412,21 @@
     set state=0
     where customer_id=#{cusNo}
   </update>
+
+  <!--查询所有有效且未流失的客户名-->
+  <select id="selectAllCustomersAndSelected" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+      c.`name` as name,
+      CASE
+        WHEN IFNULL( temp.id, 0 )= 0 THEN
+          0 ELSE 1
+        END AS selected
+    FROM
+      t_customer c
+        LEFT JOIN ( SELECT id, cus_name FROM t_customer_serve WHERE id = #{serveId} AND is_valid = 1 ) temp
+        ON c.`name` = temp.cus_name
+    WHERE
+      c.is_valid = 1
+      AND c.state =1
+  </select>
 </mapper>

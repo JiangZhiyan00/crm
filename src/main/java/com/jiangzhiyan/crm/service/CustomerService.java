@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author JiangZhiyan
@@ -64,18 +65,23 @@ public class CustomerService extends BaseService<Customer,Integer> {
         AssertUtil.isTrue(ids == null || ids.size() == 0,"无效的请求!请重试...");
         //1.删除详细订单中的所有关联记录
         List<Integer> orderIds = customerOrderMapper.selectOrderIdsByCusIds(ids);
-        Integer orderDetailsCount = orderDetailsMapper.selectCountByOrderIds(orderIds);
-        Integer deleteOrderDetailsResult = orderDetailsMapper.deleteByOrderIds(orderIds);
-        AssertUtil.isTrue(!orderDetailsCount.equals(deleteOrderDetailsResult),"服务器异常!删除失败...");
-        //2.删除客户订单中的管理记录
-        Integer ordersCount = customerOrderMapper.selectCountByCusIds(ids);
-        Integer deleteOrdersResult = customerOrderMapper.deleteByCusIds(ids);
-        AssertUtil.isTrue(!ordersCount.equals(deleteOrdersResult),"服务器异常!删除失败...");
+        if (orderIds != null && orderIds.size() > 0){
+            Integer orderDetailsCount = orderDetailsMapper.selectCountByOrderIds(orderIds);
+            Integer deleteOrderDetailsResult = orderDetailsMapper.deleteByOrderIds(orderIds);
+            AssertUtil.isTrue(!orderDetailsCount.equals(deleteOrderDetailsResult),"服务器异常!删除失败...");
+            //2.删除客户订单中的管理记录
+            Integer ordersCount = customerOrderMapper.selectCountByCusIds(ids);
+            Integer deleteOrdersResult = customerOrderMapper.deleteByCusIds(ids);
+            AssertUtil.isTrue(!ordersCount.equals(deleteOrdersResult),"服务器异常!删除失败...");
+        }
         //3.删除客户
         Integer result = customerMapper.deleteBatch(ids);
         AssertUtil.isTrue(result != ids.size(),"服务器异常!客户信息删除失败...");
     }
 
+    public List<Map<String, Object>> selectAllCustomersAndSelected(Integer serveId) {
+        return customerMapper.selectAllCustomersAndSelected(serveId);
+    }
 //------------------------------------分隔线(下方主要为参数校验及初始化)---------------------------------------------------
 
     /**

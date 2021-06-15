@@ -5,6 +5,7 @@ import com.jiangzhiyan.crm.query.CustomerQuery;
 import com.jiangzhiyan.crm.vo.Customer;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author JiangZhiyan
@@ -32,4 +33,6 @@ public interface CustomerMapper extends BaseMapper<Customer,Integer> {
     Integer updateState1ByNo(String cusNo);
 
     Integer updateState0ByNo(String cusNo);
+
+    List<Map<String, Object>> selectAllCustomersAndSelected(Integer serveId);
 }

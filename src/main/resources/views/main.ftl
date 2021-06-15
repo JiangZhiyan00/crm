@@ -115,7 +115,7 @@
                             <#if optValues?seq_contains("3010")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-5" data-tab="customer_serve/index/1" target="_self"><i
+                                       data-tab-mpi="m-p-i-5" data-tab="customerServe/index/1" target="_self"><i
                                                 class="fa fa-tachometer"></i><span
                                                 class="layui-left-nav"> 服务创建</span></a>
                                 </dd>
@@ -123,7 +123,7 @@
                             <#if optValues?seq_contains("3020")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-6" data-tab="customer_serve/index/2" target="_self"><i
+                                       data-tab-mpi="m-p-i-6" data-tab="customerServe/index/2" target="_self"><i
                                                 class="fa fa-tachometer"></i><span
                                                 class="layui-left-nav"> 服务分配</span></a>
                                 </dd>
@@ -131,7 +131,7 @@
                             <#if optValues?seq_contains("3030")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-7" data-tab="customer_serve/index/3" target="_self"><i
+                                       data-tab-mpi="m-p-i-7" data-tab="customerServe/index/3" target="_self"><i
                                                 class="fa fa-tachometer"></i><span
                                                 class="layui-left-nav"> 服务处理</span></a>
                                 </dd>
@@ -140,7 +140,7 @@
                             <#if optValues?seq_contains("3040")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-8" data-tab="customer_serve/index/4" target="_self"><i
+                                       data-tab-mpi="m-p-i-8" data-tab="customerServe/index/4" target="_self"><i
                                                 class="fa fa-tachometer"></i><span
                                                 class="layui-left-nav"> 服务反馈</span></a>
                                 </dd>
@@ -148,7 +148,7 @@
                             <#if optValues?seq_contains("3050")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-9" data-tab="customer_serve/index/5" target="_self"><i
+                                       data-tab-mpi="m-p-i-9" data-tab="customerServe/index/5" target="_self"><i
                                                 class="fa fa-tachometer"></i><span
                                                 class="layui-left-nav"> 服务归档</span></a>
                                 </dd>

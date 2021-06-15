@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>服务归档</title>
-    <#include "../common.ftl">
+    <#include "*/common.ftl">
 </head>
 <body class="childrenBody">
 

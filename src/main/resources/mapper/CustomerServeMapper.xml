@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="serve_type" property="serveType" jdbcType="VARCHAR" />
     <result column="overview" property="overview" jdbcType="VARCHAR" />
-    <result column="customer" property="customer" jdbcType="VARCHAR" />
+    <result column="cus_name" property="cusName" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="service_request" property="serviceRequest" jdbcType="VARCHAR" />
     <result column="create_people" property="createPeople" jdbcType="VARCHAR" />
@@ -21,7 +21,7 @@
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, serve_type, overview, customer, state, service_request, create_people, assigner, 
+    id, serve_type, overview, cus_name, state, service_request, create_people, assigner, 
     assign_time, service_proce, service_proce_people, service_proce_time, service_proce_result, 
     satisfaction, is_valid, update_date, create_date
   </sql>
@@ -37,13 +37,13 @@
   </delete>
   <insert id="insert" parameterType="com.jiangzhiyan.crm.vo.CustomerServe" >
     insert into t_customer_serve (id, serve_type, overview, 
-      customer, state, service_request, 
+      cus_name, state, service_request, 
       create_people, assigner, assign_time, 
       service_proce, service_proce_people, service_proce_time, 
       service_proce_result, satisfaction, is_valid, 
       update_date, create_date)
     values (#{id,jdbcType=INTEGER}, #{serveType,jdbcType=VARCHAR}, #{overview,jdbcType=VARCHAR}, 
-      #{customer,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{serviceRequest,jdbcType=VARCHAR}, 
+      #{cusName,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{serviceRequest,jdbcType=VARCHAR}, 
       #{createPeople,jdbcType=VARCHAR}, #{assigner,jdbcType=VARCHAR}, #{assignTime,jdbcType=TIMESTAMP}, 
       #{serviceProce,jdbcType=VARCHAR}, #{serviceProcePeople,jdbcType=VARCHAR}, #{serviceProceTime,jdbcType=TIMESTAMP}, 
       #{serviceProceResult,jdbcType=VARCHAR}, #{satisfaction,jdbcType=VARCHAR}, #{isValid,jdbcType=INTEGER}, 
@@ -61,8 +61,8 @@
       <if test="overview != null" >
         overview,
       </if>
-      <if test="customer != null" >
-        customer,
+      <if test="cusName != null" >
+        cus_name,
       </if>
       <if test="state != null" >
         state,
@@ -114,8 +114,8 @@
       <if test="overview != null" >
         #{overview,jdbcType=VARCHAR},
       </if>
-      <if test="customer != null" >
-        #{customer,jdbcType=VARCHAR},
+      <if test="cusName != null" >
+        #{cusName,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         #{state,jdbcType=VARCHAR},
@@ -167,8 +167,8 @@
       <if test="overview != null" >
         overview = #{overview,jdbcType=VARCHAR},
       </if>
-      <if test="customer != null" >
-        customer = #{customer,jdbcType=VARCHAR},
+      <if test="cusName != null" >
+        cus_name = #{cusName,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=VARCHAR},
@@ -216,7 +216,7 @@
     update t_customer_serve
     set serve_type = #{serveType,jdbcType=VARCHAR},
       overview = #{overview,jdbcType=VARCHAR},
-      customer = #{customer,jdbcType=VARCHAR},
+      cus_name = #{cusName,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
       service_request = #{serviceRequest,jdbcType=VARCHAR},
       create_people = #{createPeople,jdbcType=VARCHAR},
@@ -231,5 +231,38 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--条件查询客户服务-->
+  <select id="selectByParams" parameterType="com.jiangzhiyan.crm.query.CustomerServeQuery" resultMap="BaseResultMap">
+    select
+    cs.id, cs.serve_type, cs.overview, cs.cus_name, cs.state, cs.service_request, cs.create_people, cs.assigner,
+    cs.assign_time, cs.service_proce, cs.service_proce_people, cs.service_proce_time, cs.service_proce_result,
+    cs.satisfaction, cs.is_valid, cs.update_date, cs.create_date
+    from t_customer_serve cs
+    left join t_customer c
+    on c.name=cs.cus_name
+    <where>
+      c.is_valid=1 and cs.is_valid=1
+      <if test="cusName != null and cusName !='' ">
+        and cs.cus_name like "%"#{cusName}"%"
+      </if>
+      <if test="serveType != null and serveType !='' ">
+        and cs.serve_type=#{serveType}
+      </if>
+      <if test="state != null and state !='' ">
+        and cs.state=#{state}
+      </if>
+    </where>
+  </select>
+
+  <!--批量删除客户服务-->
+  <update id="deleteBatch" parameterType="list">
+    update t_customer_serve
+    set is_valid=0
+    where is_valid=1 and id in
+    <foreach collection="list" item="ids" open="(" close=")" separator=",">
+      #{ids}
+    </foreach>
   </update>
 </mapper>
