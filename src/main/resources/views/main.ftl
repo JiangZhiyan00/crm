@@ -159,7 +159,7 @@
                     </li>
                     <#if optValues?seq_contains("40")>
                     <li class="layui-nav-item">
-                        <a href="javascript:;" class="layui-menu-tips"><i class="fa fa-home"></i><span
+                        <a href="javascript:;" class="layui-menu-tips"><i class="layui-icon">&#xe629;</i><span
                                     class="layui-left-nav"> 统计报表</span> <span class="layui-nav-more"></span></a>
                         <dl class="layui-nav-child">
                             </#if>
