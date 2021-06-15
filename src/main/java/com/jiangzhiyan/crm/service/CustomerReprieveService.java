@@ -62,6 +62,8 @@ public class CustomerReprieveService extends BaseService<CustomerReprieve,Intege
     @Transactional(rollbackFor = Exception.class)
     public void addReprieve(CustomerReprieve customerReprieve) {
         checkAddOrUpdateParams(customerReprieve);
+        CustomerLoss loss = customerLossMapper.selectState1LossCustomerById(customerReprieve.getLossId());
+        AssertUtil.isTrue(loss == null,"该暂缓客户不存在!");
         initAddOrUpdateParams(customerReprieve);
         Integer result = customerReprieveMapper.insertSelective(customerReprieve);
         AssertUtil.isTrue(result != 1,"服务器异常!添加失败...");
@@ -74,6 +76,8 @@ public class CustomerReprieveService extends BaseService<CustomerReprieve,Intege
     @Transactional(rollbackFor = Exception.class)
     public void updateReprieve(CustomerReprieve customerReprieve) {
         checkAddOrUpdateParams(customerReprieve);
+        CustomerLoss loss = customerLossMapper.selectState1LossCustomerById(customerReprieve.getLossId());
+        AssertUtil.isTrue(loss == null,"该暂缓客户不存在!");
         initAddOrUpdateParams(customerReprieve);
         Integer result = customerReprieveMapper.updateByPrimaryKeySelective(customerReprieve);
         AssertUtil.isTrue(result != 1,"服务器异常!更新失败...");
