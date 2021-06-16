@@ -6,7 +6,6 @@
 <body>
 
 <div class="layui-carousel" id="carousel1">
-    <!-- 条目中可以是任意内容，如：<img src=""> -->
     <div carousel-item>
         <div style="background-color: #009688">
             <div style="position: relative;

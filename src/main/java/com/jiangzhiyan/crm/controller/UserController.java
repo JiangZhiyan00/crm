@@ -160,4 +160,25 @@ public class UserController extends BaseController {
     public List<Map<String,Object>> selectAllCustomerManagersForXmSelect(Integer serveId){
         return userService.selectAllCustomerManagersForXmSelect(serveId);
     }
+
+    /**
+     * 跳转到更改个人资料页面
+     * @return 个人资料页面
+     */
+    @GetMapping("/information")
+    public String toUserInformationPage(){
+        return "/user/information";
+    }
+
+    /**
+     * 更新个人资料
+     * @param user 待更新的用户资料
+     * @return 更新结果提示信息
+     */
+    @PostMapping("/updateInfo")
+    @ResponseBody
+    public ResultInfo updateInfo(User user){
+        userService.updateInfo(user);
+        return success("个人资料修改成功!");
+    }
 }

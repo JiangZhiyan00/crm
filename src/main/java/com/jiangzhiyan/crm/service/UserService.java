@@ -133,6 +133,20 @@ public class UserService extends BaseService<User,Integer> {
     }
 
     /**
+     * 登录用户更改个人资料
+     * @param user 待修改的用户
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void updateInfo(User user) {
+        AssertUtil.isTrue(user == null || user.getId() == null,"无效的请求!请重试...");
+        AssertUtil.isTrue(userMapper.selectByPrimaryKey(user.getId()) == null,"不存在此用户!");
+        AssertUtil.isTrue(!PhoneUtil.isMobile(user.getPhone()),"手机号格式不正确!");
+        AssertUtil.isTrue(!EmailUtil.isValidEmail(user.getEmail()),"邮箱格式不正确!");
+        user.setUpdateDate(new Date());
+        AssertUtil.isTrue(userMapper.updateByPrimaryKeySelective(user) != 1,"服务器异常!资料修改失败...");
+    }
+
+    /**
      * 获取登录用户能够访问的资源列表
      * @param userId
      * @return

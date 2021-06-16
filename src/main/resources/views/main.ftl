@@ -28,7 +28,7 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:;" data-iframe-tab="/user/toPasswordPage" data-title="基本资料"
+                        <a href="javascript:;" data-iframe-tab="/user/information" data-title="基本资料"
                            data-icon="fa fa-gears">基本资料</a>
                     </dd>
                     <dd>
