@@ -41,7 +41,7 @@ layui.use(['form', 'layer','xmSelect'], function () {
         let index = top.layer.msg("数据提交中,请稍后...", {icon: 16, time: false, shade: 0.8});
         let url = ctx + "/customerServe/add";
         if ($("input[name='id']").val()) {
-            url = ctx + "/customerServe/update";
+            url = ctx + "/customerServe/updateInCreatePage";
         }
         $.post(url, data.field, function (res) {
             if (res.code === 200) {

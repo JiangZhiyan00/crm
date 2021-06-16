@@ -30,4 +30,6 @@ public interface UserMapper extends BaseMapper<User,Integer> {
      * @return
      */
     List<String> getLoginUserModules(Integer userId);
+
+    List<Map<String, Object>> selectAllCustomerManagersForXmSelect(Integer serveId);
 }

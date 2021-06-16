@@ -2,6 +2,9 @@ package com.jiangzhiyan.crm.query;
 
 import com.jiangzhiyan.crm.base.BaseQuery;
 
+/**
+ * @author JiangZhiyan
+ */
 public class CustomerServeQuery extends BaseQuery {
 
     private String cusName;
@@ -9,6 +12,8 @@ public class CustomerServeQuery extends BaseQuery {
     private String serveType;
 
     private String state;
+
+    private String assigner;
 
     public String getCusName() {
         return cusName;
@@ -32,5 +37,13 @@ public class CustomerServeQuery extends BaseQuery {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getAssigner() {
+        return assigner;
+    }
+
+    public void setAssigner(String assigner) {
+        this.assigner = assigner;
     }
 }

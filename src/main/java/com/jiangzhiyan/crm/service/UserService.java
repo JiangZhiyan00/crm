@@ -124,6 +124,15 @@ public class UserService extends BaseService<User,Integer> {
     }
 
     /**
+     * 查询所有职位为客户经理的用户
+     * @param serveId 客户服务记录id
+     * @return xm-select格式:id,name,selected三个字段
+     */
+    public List<Map<String, Object>> selectAllCustomerManagersForXmSelect(Integer serveId) {
+        return userMapper.selectAllCustomerManagersForXmSelect(serveId);
+    }
+
+    /**
      * 获取登录用户能够访问的资源列表
      * @param userId
      * @return

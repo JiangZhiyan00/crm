@@ -11,16 +11,16 @@
         <form class="layui-form">
             <div class="layui-inline">
                 <div class="layui-input-inline">
-                    <input type="text" name="customer"
+                    <input type="text" name="cusName"
                            class="layui-input
-					searchVal" placeholder="客户" />
+					searchVal" placeholder="客户名" />
                 </div>
                 <div class="layui-input-inline">
-                    <select name="type"  id="type">
-                        <option value="" >请选择</option>
+                    <select name="serveType"  id="serveType">
+                        <option value="" >请选择服务类型</option>
                         <option value="6">咨询</option>
-                        <option value="7" >建议</option>
-                        <option value="8" >投诉</option>
+                        <option value="7">建议</option>
+                        <option value="8">投诉</option>
                     </select>
                 </div>
 
@@ -33,11 +33,17 @@
 
 
     <script type="text/html" id="toolbarDemo">
-
+        <div class="layui-btn-group">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh">
+                <i class="layui-icon">&#xe669;</i>刷新
+            </button>
+        </div>
     </script>
 
     <script id="customerServeListBar" type="text/html">
-       <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-xs"  lay-event="assign">分配</a>
+        <#if optValues?seq_contains("302001")>
+            <a href="javascript:;" class="layui-btn layui-btn-xs"  lay-event="assign">分配</a>
+        </#if>
     </script>
 
 </form>

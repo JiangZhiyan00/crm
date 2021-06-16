@@ -2,11 +2,13 @@ package com.jiangzhiyan.crm.service;
 
 import com.github.pagehelper.util.StringUtil;
 import com.jiangzhiyan.crm.base.BaseService;
+import com.jiangzhiyan.crm.dao.CustomerMapper;
 import com.jiangzhiyan.crm.dao.CustomerServeMapper;
 import com.jiangzhiyan.crm.enums.ServeState;
 import com.jiangzhiyan.crm.exceptions.ParamsException;
 import com.jiangzhiyan.crm.utils.AssertUtil;
 import com.jiangzhiyan.crm.utils.CookieUtil;
+import com.jiangzhiyan.crm.utils.LoginUserUtil;
 import com.jiangzhiyan.crm.vo.CustomerServe;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class CustomerServeService extends BaseService<CustomerServe,Integer> {
     @Resource
     private HttpServletRequest request;
 
+    @Resource
+    private CustomerMapper customerMapper;
+
     /**
      * 添加服务
      * @param customerServe 待添加的服务
@@ -41,7 +46,19 @@ public class CustomerServeService extends BaseService<CustomerServe,Integer> {
     }
 
     /**
-     * 更新服务
+     * 服务创建页面的更新操作
+     * @param customerServe 待更新的服务
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void updateServeInCreatePage(CustomerServe customerServe) {
+        checkUpdateParamsInCreatePage(customerServe);
+        initUpdateParams(customerServe);
+        AssertUtil.isTrue(customerServeMapper.updateByPrimaryKeySelective(customerServe) != 1,
+                "服务器异常!更新失败...");
+    }
+
+    /**
+     * 其他页面的更新服务操作
      * @param customerServe 待更新的服务
      * @return 服务更新后提示的信息
      */
@@ -49,7 +66,8 @@ public class CustomerServeService extends BaseService<CustomerServe,Integer> {
     public String updateCustomerServe(CustomerServe customerServe) {
         String message = checkUpdateParams(customerServe);
         initUpdateParams(customerServe);
-        customerServeMapper.updateByPrimaryKeySelective(customerServe);
+        AssertUtil.isTrue(customerServeMapper.updateByPrimaryKeySelective(customerServe) != 1,
+                "服务器异常!"+message+"失败...");
         return message+"成功!";
     }
 
@@ -73,7 +91,9 @@ public class CustomerServeService extends BaseService<CustomerServe,Integer> {
         AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServeType()),"服务类型不能为空!");
         AssertUtil.isTrue(StringUtils.isBlank(customerServe.getCusName()),"客户名不能为空!");
         AssertUtil.isTrue(!ServeState.CREATE.getState().equals(customerServe.getState()),"服务状态不正确!");
-        AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServiceRequest()),"服务内容不能为空!");
+        AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServiceRequest()),"处理措施不能为空!");
+        AssertUtil.isTrue(customerMapper.selectByCustomerName(customerServe.getCusName()) == null,
+                "该客户不存在!");
     }
 
     /**
@@ -81,42 +101,46 @@ public class CustomerServeService extends BaseService<CustomerServe,Integer> {
      * @param customerServe 待添加的服务
      */
     private void initAddParams(CustomerServe customerServe) {
-        CookieUtil.getCookieValue(request,"trueName");
         customerServe.setCreatePeople(CookieUtil.getCookieValue(request,"trueName"));
         customerServe.setIsValid(1);
         customerServe.setCreateDate(new Date());
     }
 
     /**
-     * 更新服务参数校验
+     * 服务创建页面的更新操作参数校验
+     * @param customerServe 待更新的服务
+     */
+    private void checkUpdateParamsInCreatePage(CustomerServe customerServe){
+        AssertUtil.isTrue(customerServe.getId() == null,"无效的请求!请重试");
+        AssertUtil.isTrue(StringUtils.isBlank(customerServe.getState()),"服务状态不能为空!");
+        AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServeType()),"服务类型不能为空!");
+        AssertUtil.isTrue(StringUtils.isBlank(customerServe.getCusName()),"客户名不能为空!");
+        AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServiceRequest()),"服务内容不能为空!");
+        AssertUtil.isTrue(customerMapper.selectByCustomerName(customerServe.getCusName()) == null,
+                "该客户不存在!");
+    }
+
+    /**
+     * 其他页面更新服务操作参数校验
      * @param customerServe 待更新的服务
      * @return 执行的操作的名称
      */
     private String checkUpdateParams(CustomerServe customerServe){
         AssertUtil.isTrue(customerServe.getId() == null,"无效的请求!请重试");
         AssertUtil.isTrue(StringUtils.isBlank(customerServe.getState()),"服务状态不能为空!");
-        //服务创建页面的更新操作
-        if (ServeState.CREATE.getState().equals(customerServe.getState())){
-            AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServeType()),"服务类型不能为空!");
-            AssertUtil.isTrue(StringUtils.isBlank(customerServe.getCusName()),"客户名不能为空!");
-            AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServiceRequest()),"服务内容不能为空!");
-            return "服务更新";
         //服务分配页面
-        }else if (ServeState.ASSIGN.getState().equals(customerServe.getState())){
-
+        if (ServeState.ASSIGN.getState().equals(customerServe.getState())){
+            AssertUtil.isTrue(StringUtils.isBlank(customerServe.getAssigner()),"分配人不能为空!");
             return ServeState.ASSIGN.getInfo();
         //服务处理页面
         }else if (ServeState.PROCEED.getState().equals(customerServe.getState())){
-
+            AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServiceProce()),"处理内容不能为空!");
             return ServeState.PROCEED.getInfo();
         //服务反馈页面
         }else if (ServeState.FEEDBACK.getState().equals(customerServe.getState())){
-
+            AssertUtil.isTrue(StringUtils.isBlank(customerServe.getServiceProceResult()),"处理结果不能为空!");
+            AssertUtil.isTrue(StringUtils.isBlank(customerServe.getSatisfaction()),"满意度不能为空!");
             return ServeState.FEEDBACK.getInfo();
-        //服务归档页面
-        }else if (ServeState.ARCHIVE.getState().equals(customerServe.getState())){
-
-            return ServeState.ARCHIVE.getInfo();
         }else {
             throw new ParamsException("服务状态参数异常!");
         }
@@ -132,6 +156,7 @@ public class CustomerServeService extends BaseService<CustomerServe,Integer> {
             customerServe.setAssignTime(new Date());
         //服务处理
         }else if (ServeState.PROCEED.getState().equals(customerServe.getState())){
+            customerServe.setServiceProcePeople(CookieUtil.getCookieValue(request,"trueName"));
             customerServe.setServiceProceTime(new Date());
         }
         customerServe.setUpdateDate(new Date());

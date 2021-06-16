@@ -6,7 +6,11 @@
 <body class="childrenBody">
 <div align="justify">
     <form class="layui-form" style="width:80%;">
-        <input name="state" type="hidden" value="fw_001"/>
+        <#if customerServe??>
+            <input name="state" type="hidden" value="${(customerServe.state)!}"/>
+        <#else>
+            <input name="state" type="hidden" value="fw_001"/>
+        </#if>
         <input name="id" type="hidden" value="${(customerServe.id)!}">
         <div class="layui-form-item layui-row">
             <div class="layui-col-xs6">
@@ -16,9 +20,9 @@
                     <select name="serveType"  id="serveType" lay-verify="required"
                             lay-reqtext="服务类型不能为空!">
                         <option value="" >请选择</option>
-                        <option value="6" <#if customerServe.serveType == 6>selected</#if>>咨询</option>
-                        <option value="7" <#if customerServe.serveType == 7>selected</#if>>建议</option>
-                        <option value="8" <#if customerServe.serveType == 8>selected</#if>>投诉</option>
+                        <option value="6" <#if customerServe.serveType == "6">selected</#if>>咨询</option>
+                        <option value="7" <#if customerServe.serveType == "7">selected</#if>>建议</option>
+                        <option value="8" <#if customerServe.serveType == "8">selected</#if>>投诉</option>
                     </select>
                 </div>
             </div>

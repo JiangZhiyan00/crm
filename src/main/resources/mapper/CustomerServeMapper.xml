@@ -253,6 +253,9 @@
       <if test="state != null and state !='' ">
         and cs.state=#{state}
       </if>
+      <if test="assigner != null and assigner !='' ">
+        and cs.assigner=#{assigner}
+      </if>
     </where>
   </select>
 

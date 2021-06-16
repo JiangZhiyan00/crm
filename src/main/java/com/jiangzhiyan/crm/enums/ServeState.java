@@ -9,8 +9,7 @@ public enum ServeState {
     CREATE("fw_001","服务创建"),
     ASSIGN("fw_002","服务分配"),
     PROCEED("fw_003","服务处理"),
-    FEEDBACK("fw_004","服务反馈"),
-    ARCHIVE("fw_005","服务归档");
+    FEEDBACK("fw_004","服务反馈");
 
     private String state;
 
