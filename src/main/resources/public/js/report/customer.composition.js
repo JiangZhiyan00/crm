@@ -40,7 +40,8 @@ layui.use(['layer','echarts'], function () {
                 ],
                 yAxis: [
                     {
-                        type: 'value'
+                        type: 'value',
+                        minInterval: 1
                     }
                 ],
                 series: [
