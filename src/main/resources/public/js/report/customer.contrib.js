@@ -1,26 +1,37 @@
-layui.use(['table','layer','form','echarts'],function(){
+layui.use(['table','layer',"form","laydate",'echarts'],function(){
     let layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
         table = layui.table,
+        laydate = layui.laydate,
         echarts = layui.echarts;
 
+    //用户列表展示
     let tableIns = table.render({
-        elem: '#customerLossList',
         even:true,
-        url : ctx+'/customerLoss/list?state=0',
+        elem: '#contribList',
+        url : ctx+'/report/queryContributionByParams',
         cellMinWidth : 20,
         height : "full",
+        id : "customerContribListTable",
         toolbar: "#toolbarDemo",
-        id : "customerLossListTable",
         cols : [[
-            {field: 'cusNo', title: '客户编号',align:"center"},
-            {field: 'cusName', title: '客户名称',align:"center"},
-            {field: 'lossReason', title: '流失原因',align:"center"},
-            {field: 'confirmLossTime', title: '流失时间',align:"center"},
-            {field: 'lastOrderTime', title: '最后下单时间',align:"center"},
-            {field: 'cusManager', title: '客户经理',align:"center"}
+            {field: 'cusName', title: '客户名', minWidth:50, align:"center"},
+            {field: 'total', title: '总金额(￥)', minWidth:50, align:"center",sort:true}
         ]]
     });
+
+    laydate.render({
+        elem: '#startDate',//指定元素
+        format: 'yyyy-MM-dd', //可任意组合
+        min: '1990-1-1',
+        max: 0
+    })
+    laydate.render({
+        elem: '#endDate',//指定元素
+        format: 'yyyy-MM-dd', //可任意组合
+        min: '1990-1-1',
+        max: 0
+    })
 
     $(function(){
         showContributionsPie();
@@ -30,7 +41,7 @@ layui.use(['table','layer','form','echarts'],function(){
         $.ajax({
             type:"get",
             data:d,
-            url:ctx+"/report/getLossCustomerForPie",
+            url:ctx+"/report/customerContrib",
             dataType:'json',
             success:function (data) {
                 // 基于准备好的dom，初始化echarts实例
@@ -38,7 +49,7 @@ layui.use(['table','layer','form','echarts'],function(){
                 // 指定图表的配置项和数据
                 option = {
                     title: {
-                        text: '流失客户饼图',
+                        text: '客户贡献饼图',
                         subtext: '来自: CRM',
                     },
                     tooltip: {
@@ -59,7 +70,7 @@ layui.use(['table','layer','form','echarts'],function(){
                     },
                     series: [
                         {
-                            name: '流失客户',
+                            name: '订单金额',
                             type: 'pie',
                             radius: [30, 180],
                             center: ['50%', '50%'],
@@ -77,20 +88,25 @@ layui.use(['table','layer','form','echarts'],function(){
         })
     }
 
-    $(".search_btn").on("click",function(){
-        table.reload("customerLossListTable",{
-            where: {
-                cusNo: $("input[name='cusNo']").val(),
-                cusName: $("input[name='cusName']").val()
-            }
+
+    // 多条件搜索
+    $(".search_btn").on("click",function () {
+        let searchData = {
+            cusName:$("input[name='cusName']").val(),// 客户名
+            moneyLevel:$("#moneyLevel").val(),// 金额区间
+            startDate:$("input[name='startDate']").val(),
+            endDate:$("input[name='endDate']").val()
+        };
+        table.reload("customerContribListTable",{
+            where:searchData
         })
+        showContributionsPie(searchData);
     });
 
     // 头工具栏事件
-    table.on('toolbar(customerLosses)',function (obj) {
+    table.on('toolbar(contrib)',function (obj) {
         if (obj.event === "refresh"){
-            table.reload("customerLossListTable")
+            table.reload("customerContribListTable")
         }
     });
-
 });

@@ -166,28 +166,28 @@
                             <#if optValues?seq_contains("4010")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-10" data-tab="report/0" target="_self"><i
+                                       data-tab-mpi="m-p-i-10" data-tab="report/contrib" target="_self"><i
                                                 class="fa fa-tachometer"></i><span class="layui-left-nav"> 客户贡献分析</span></a>
                                 </dd>
                             </#if>
                             <#if optValues?seq_contains("4020")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-10" data-tab="report/1" target="_self"><i
+                                       data-tab-mpi="m-p-i-10" data-tab="report/composition" target="_self"><i
                                                 class="fa fa-tachometer"></i><span class="layui-left-nav"> 客户构成分析</span></a>
                                 </dd>
                             </#if>
                             <#if optValues?seq_contains("4030")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-10" data-tab="report/2" target="_self"><i
+                                       data-tab-mpi="m-p-i-10" data-tab="report/serve" target="_self"><i
                                                 class="fa fa-tachometer"></i><span class="layui-left-nav"> 客户服务分析</span></a>
                                 </dd>
                             </#if>
                             <#if optValues?seq_contains("4040")>
                                 <dd>
                                     <a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"
-                                       data-tab-mpi="m-p-i-10" data-tab="report/3" target="_self"><i
+                                       data-tab-mpi="m-p-i-10" data-tab="report/loss" target="_self"><i
                                                 class="fa fa-tachometer"></i><span class="layui-left-nav"> 客户流失分析</span></a>
                                 </dd>
                             </#if>

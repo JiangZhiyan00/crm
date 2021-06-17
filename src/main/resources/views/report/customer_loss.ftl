@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>流失客户统计</title>
-	<#include "../common.ftl">
+	<#include "*/common.ftl">
 </head>
 <body class="childrenBody">
 
@@ -24,15 +24,19 @@
 			</div>
 		</form>
 	</blockquote>
-	<table id="customerLossList" class="layui-table"  lay-filter="customerLosses"></table>
-
-
-	<script type="text/html" id="toolbarDemo">
-	</script>
-
-
-
 </form>
+
+<div class="layui-card">
+	<table id="customerLossList" class="layui-table"  lay-filter="customerLosses"></table>
+	<script type="text/html" id="toolbarDemo">
+		<div class="layui-btn-group">
+			<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh">
+				<i class="layui-icon">&#xe669;</i>刷新
+			</button>
+		</div>
+	</script>
+	<div class="layui-card-body" id="pie" style="width: 100%;min-height:500px"></div>
+</div>
 <script type="text/javascript" src="${ctx}/js/report/customer.loss.js"></script>
 
 </body>

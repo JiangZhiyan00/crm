@@ -429,4 +429,121 @@
       c.is_valid = 1
       AND c.state =1
   </select>
+
+  <!--查询客户贡献,渲染表格-->
+  <select id="queryContribByParams" parameterType="com.jiangzhiyan.crm.query.CustomerContributionQuery" resultType="java.util.Map">
+    SELECT
+      c.`name` cusName,
+      sum( od.sum ) total
+    FROM
+      t_customer c
+        LEFT JOIN t_customer_order co ON c.id = co.cus_id
+        LEFT JOIN t_order_details od ON co.id = od.order_id
+    <where>
+      c.is_valid = 1
+      AND c.state = 1
+      AND co.is_valid = 1
+      AND od.is_valid = 1
+      <if test="cusName != null and cusName != '' ">
+        AND c.name like "%"#{cusName}"%"
+      </if>
+      <if test="startDate != null and endDate != null">
+        AND co.order_date between #{startDate} and #{endDate}
+      </if>
+    </where>
+    GROUP BY
+      c.`name`
+    <if test="minMoney != null ">
+      having
+      total &gt; #{minMoney}
+    </if>
+    <if test="maxMoney != null ">
+      and total &lt; #{maxMoney}
+    </if>
+  </select>
+
+  <!--查询客户贡献,渲染饼图-->
+  <select id="getCustomerContrib" parameterType="com.jiangzhiyan.crm.query.CustomerContributionQuery" resultType="java.util.Map">
+    SELECT
+    c.`name`,
+    sum( od.sum ) value
+    FROM
+    t_customer c
+    LEFT JOIN t_customer_order co ON c.id = co.cus_id
+    LEFT JOIN t_order_details od ON co.id = od.order_id
+    <where>
+      c.is_valid = 1
+      AND c.state = 1
+      AND co.is_valid = 1
+      AND od.is_valid = 1
+      <if test="cusName != null and cusName != '' ">
+        AND c.name like "%"#{cusName}"%"
+      </if>
+      <if test="startDate != null and endDate != null">
+        AND co.order_date between #{startDate} and #{endDate}
+      </if>
+    </where>
+    GROUP BY
+    c.`name`
+    <if test="minMoney != null ">
+      having
+      value &gt; #{minMoney}
+    </if>
+    <if test="maxMoney != null ">
+      and value &lt; #{maxMoney}
+    </if>
+  </select>
+
+  <!--查询客户构成-->
+  <select id="countCustomerLevelForHistogram" resultType="java.util.Map">
+    select level name,count(level) value
+    from t_customer
+    where is_valid=1 AND state=1
+    GROUP BY level
+  </select>
+
+  <!--查询客户服务类型(咨询/建议/投诉)-->
+  <select id="getServeTypeForPie" resultType="java.util.Map">
+    SELECT
+      d.data_dic_value name,
+      count( d.data_dic_value ) value
+    FROM
+      t_customer_serve cs
+        LEFT JOIN t_datadic d ON cs.serve_type = d.id
+    WHERE
+      cs.is_valid = 1
+      AND d.is_valid = 1
+    GROUP BY
+      d.data_dic_value
+  </select>
+
+  <!--查询客户服务满意度-->
+  <select id="getSatisfactionForPie" resultType="java.util.Map">
+    SELECT
+      satisfaction name,
+      count( satisfaction ) value
+    FROM
+      t_customer_serve
+    WHERE
+      is_valid = 1
+      AND satisfaction IS NOT NULL
+    GROUP BY
+      satisfaction
+  </select>
+
+  <!--查询流失客户,统计客户类型及数量-->
+  <select id="getLossCustomerForPie" resultType="java.util.Map">
+    SELECT
+      c.`level` name,
+      COUNT( c.`level` ) value
+    FROM
+      t_customer c
+        LEFT JOIN t_customer_loss cl ON c.customer_id = cl.cus_no
+    WHERE
+      c.is_valid = 1
+      AND cl.is_valid = 1
+      AND cl.state = 0
+    GROUP BY
+      c.`level`
+  </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.jiangzhiyan.crm.dao;
 
 import com.jiangzhiyan.crm.base.BaseMapper;
+import com.jiangzhiyan.crm.query.CustomerContributionQuery;
 import com.jiangzhiyan.crm.query.CustomerQuery;
 import com.jiangzhiyan.crm.vo.Customer;
 
@@ -35,4 +36,16 @@ public interface CustomerMapper extends BaseMapper<Customer,Integer> {
     Integer updateState0ByNo(String cusNo);
 
     List<Map<String, Object>> selectAllCustomersAndSelected(Integer serveId);
+
+    List<Map<String, Object>> queryContribByParams(CustomerContributionQuery query);
+
+    List<Map<String, Object>> getCustomerContrib(CustomerContributionQuery query);
+
+    List<Map<String, Object>> countCustomerLevelForHistogram();
+
+    List<Map<String, Object>> getServeTypeForPie();
+
+    List<Map<String, Object>> getSatisfactionForPie();
+
+    List<Map<String, Object>> getLossCustomerForPie();
 }
