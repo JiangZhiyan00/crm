@@ -5,58 +5,70 @@ layui.use(['table','layer'],function(){
 
 
     //字典列表展示
-    var  tableIns = table.render({
+    let tableIns = table.render({
         elem: '#dataDicList',
         url : ctx+'/dataDic/list',
-        cellMinWidth : 95,
+        cellMinWidth : 20,
         page : true,
-        height : "full-125",
-        limits : [10,15,20,25],
+        height : "full-120",
+        limits : [10,20,30,40],
         limit : 10,
         toolbar: "#toolbarDemo",
         id : "dataDicListTable",
         cols : [[
             {type: "checkbox", fixed:"center"},
-            {field: "id", title:'编号',fixed:"true"},
-            {field: 'dataDicName', title: '数据类型',align:"center"},
+            {field: "id", title:'编号',align:"center"},
+            {field: 'dataDicName', title: '数据名称',align:"center"},
             {field: 'dataDicValue', title: '数据值',  align:'center'},
+            {field: 'createDate', title: '创建时间',  align:'center'},
+            {field: 'updateDate', title: '更新时间',  align:'center'},
             {title: '操作', templet:'#dataDicListBar',fixed:"right",align:"center", minWidth:150}
         ]]
     });
 
-
+    // 多条件搜索
+    $(".search_btn").on("click",function () {
+        table.reload("dataDicListTable",{
+            page:{
+                curr:1
+            },
+            where:{
+                dataDicName:$("input[name='dataDicName']").val(),
+                dataDicValue:$("input[name='dataDicValue']").val(),
+            }
+        })
+    });
 
     // 头工具栏事件
     table.on('toolbar(dataDic)',function (obj) {
-        switch (obj.event) {
-            case "add":
-                openAddOrUpdateDataDicDialog();
-                break;
-            case "del":
-                //console.log(table.checkStatus(obj.config.id).data);
-                delDic(table.checkStatus(obj.config.id).data);
-                break;
+        if (obj.event === "add"){
+            openAddOrUpdateDataDicDialog();
+        }else if (obj.event === "del"){
+            delDic(table.checkStatus(obj.config.id).data);
+        }else if (obj.event === "refresh"){
+            table.reload("dataDicListTable",{
+                page:{curr:1},
+                where:{
+                    dataDicName:'',
+                    dataDicValue:''
+                }
+            })
         }
     });
 
 
     function delDic(datas){
-        /**
-         * 批量删除
-         *   datas:选择的待删除记录数组
-         */
-        if(datas.length==0){
-            layer.msg("请选择待删除记录!");
+        if(datas.length < 1){
+            layer.msg("<div align='center' style='color: red'><b><h3>请先选择要删除的记录!</h3></b></div>",
+                {icon: 2});
             return;
         }
-
-        layer.confirm("确定删除选中的记录",{
-            btn:['确定','取消']
-        },function (index) {
+        layer.confirm("<div align='center'><b><h3>确定删除选中的记录?</h3></b></div>",
+            {icon: 3, title: "提示"},
+        function (index) {
             layer.close(index);
-            // ids=10&ids=20&ids=30
-            var ids="ids=";
-            for(var i=0;i<datas.length;i++){
+            let ids="ids=";
+            for(let i=0;i<datas.length;i++){
                 if(i<datas.length-1){
                     ids=ids+datas[i].id+"&ids=";
                 }else{
@@ -70,61 +82,58 @@ layui.use(['table','layer'],function(){
                 data:ids,
                 dataType:"json",
                 success:function (data) {
-                    if(data.code==200){
+                    if(data.code===200){
+                        layer.msg("<div align='center' style='color: #00B83F'><b><h3>删除成功!</h3></b></div>",
+                            {icon: 6})
                         tableIns.reload();
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg("<div align='center' style='color: red'><b><h3>"+data.msg+"</h3></b></div>",
+                            {icon: 5});
                     }
                 }
             })
-
-
-
         })
-
-
     }
 
-
-
     table.on('tool(dataDic)',function (obj) {
-          var layEvent =obj.event;
-          if(layEvent === "edit"){
+          if(obj.event === "edit"){
               openAddOrUpdateDataDicDialog(obj.data.id);
-          }else if(layEvent === "del"){
-              layer.confirm("确认删除当前记录?",{icon: 3, title: "数据管理"},function (index) {
-                  $.post(ctx+"/dataDic/delete",{ids:obj.data.id},function (data) {
-                      if(data.code==200){
-                          layer.msg("删除成功");
+          }else if(obj.event === "del") {
+              layer.confirm("<div align='center'><b><h3>确定删除此条记录吗?</h3></b></div>",
+                  {icon: 3, title: "提示"},
+              function (index) {
+                  layer.close(index);
+                  $.post(ctx + "/dataDic/delete", {ids: obj.data.id}, function (data) {
+                      if (data.code === 200) {
+                          layer.msg("<div align='center' style='color: #00B83F'><b><h3>删除成功!</h3></b></div>",
+                              {icon: 6})
                           tableIns.reload();
-                      }else{
-                          layer.msg(data.msg);
+                      } else {
+                          layer.msg("<div align='center' style='color: red '><b><h3>" + data.msg + "</h3></b></div>",
+                              {icon: 5});
                       }
                   })
               })
           }
-
     });
-
 
 
     /**
      * 打开添加或更新对话框
      */
-    function openAddOrUpdateDataDicDialog(sid) {
-        var title="字典管理-字典添加";
-        var url=ctx+"/dataDic/addOrUpdateDataDicPage";
-        if(sid){
-            title="字典管理-字典更新";
-            url=url+"?id="+sid;
+    function openAddOrUpdateDataDicDialog(id) {
+        let title="<h2>字典管理-字典添加</h2>";
+        let url=ctx+"/dataDic/addOrUpdateDataDicPage";
+        if(id){
+            title="<h2>字典管理-字典更新</h2>";
+            url=url+"?id="+id;
         }
         layui.layer.open({
             title:title,
             type:2,
-            area:["700px","500px"],
+            area:["700px","250px"],
             maxmin:true,
             content:url
         })
     }
-
 });

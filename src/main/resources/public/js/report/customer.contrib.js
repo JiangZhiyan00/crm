@@ -106,7 +106,14 @@ layui.use(['table','layer',"form","laydate",'echarts'],function(){
     // 头工具栏事件
     table.on('toolbar(contrib)',function (obj) {
         if (obj.event === "refresh"){
-            table.reload("customerContribListTable")
+            table.reload("customerContribListTable",{
+                where:{
+                    cusName:'',
+                    moneyLevel:'',
+                    startDate:'',
+                    endDate:''
+                }
+            })
         }
     });
 });
