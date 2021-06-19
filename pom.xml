@@ -11,12 +11,21 @@
     <groupId>com.jiangzhiyan</groupId>
     <artifactId>crm</artifactId>
     <version>1.0.0</version>
+    <packaging>war</packaging>  <!--设置打包类型为war包-->
     <name>crm</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+
+        <!--排除springboot自带的tomcat-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!--freemarker起步依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,11 +89,12 @@
         </dependency>
 
         <!--mysql-->
-        <dependency>
+        <!--打包上线时需要忽略配置文件中的mysql驱动-->
+<!--        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
-        </dependency>
+        </dependency>-->
 
         <!--c3p0-->
         <dependency>
@@ -116,6 +126,9 @@
     </dependencies>
 
     <build>
+        <!--设置打包后的war文件名称-->
+        <finalName>crm</finalName>
+
         <plugins>
 
             <!--编译插件-->
